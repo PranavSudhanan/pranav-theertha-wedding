@@ -1,0 +1,134 @@
+import { party, schedule, venue, wedding } from "@/lib/config";
+import SectionHead from "./SectionHead";
+import CalendarButton from "./CalendarButton";
+import { Kalasha, Nilavilakku, Pin } from "./Ornaments";
+
+function DayHead({
+  motif,
+  day,
+  date,
+  title,
+  venueName,
+  venuePlace,
+  delay = 0,
+}: {
+  motif: React.ReactNode;
+  day: string;
+  date: string;
+  title: string;
+  venueName: string;
+  venuePlace: string;
+  delay?: number;
+}) {
+  return (
+    <header className="day__head" data-reveal style={{ ["--d" as string]: `${delay}ms` }}>
+      <span className="day__motif" aria-hidden="true">
+        {motif}
+      </span>
+      <span className="day__eyebrow">
+        {day} &nbsp;·&nbsp; {date}
+      </span>
+      <h3 className="day__title">{title}</h3>
+      <p className="day__venue">
+        {venueName}
+        <span>
+          {" "}
+          &nbsp;·&nbsp; {venuePlace}
+        </span>
+      </p>
+    </header>
+  );
+}
+
+export default function Celebration() {
+  return (
+    <section className="band bg-ivory" id="celebration">
+      <div className="shell">
+        <SectionHead
+          eyebrow="The Celebration"
+          title="Two days, one family"
+          lede="It begins on the Saturday evening with a party, and ends on Sunday morning with a thaali, a lamp and a leaf full of sadhya."
+        />
+
+        {/* ── Day one ───────────────────────────────── */}
+        <article className="day">
+          <DayHead
+            motif={<Kalasha />}
+            day="Day One"
+            date={party.dateLong}
+            title={party.label}
+            venueName={party.venue.name}
+            venuePlace={`${party.venue.locality}, ${party.venue.city}`}
+          />
+
+          <div className="day__feature" data-reveal style={{ ["--d" as string]: "80ms" }}>
+            <span className="sched__time">
+              {party.time || "Time to be announced"}
+            </span>
+            <p className="day__blurb">{party.blurb}</p>
+            <div className="day__actions">
+              <CalendarButton
+                className="btn btn-ghost"
+                label="Add the party"
+                which="party"
+              />
+              <a
+                className="btn btn-ghost"
+                href={party.venue.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Pin />
+                Directions
+              </a>
+            </div>
+          </div>
+        </article>
+
+        {/* ── Day two ───────────────────────────────── */}
+        <article className="day">
+          <DayHead
+            motif={<Nilavilakku />}
+            day="Day Two"
+            date={wedding.dateLong}
+            title="The Muhurtham"
+            venueName={venue.name}
+            venuePlace={`${venue.locality}, ${venue.city}`}
+          />
+
+          <div className="sched">
+            {schedule.map((item, i) => (
+              <div
+                className={`sched__item ${item.accent ? "accent" : ""}`}
+                key={item.title}
+                data-reveal
+                style={{ ["--d" as string]: `${i * 110}ms` }}
+              >
+                <span className="sched__time">{item.time}</span>
+                <h4 className="sched__name">{item.title}</h4>
+                <p className="sched__blurb">{item.blurb}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="day__actions day__actions--centre" data-reveal>
+            <CalendarButton
+              className="btn"
+              label="Add both days to your calendar"
+              which="both"
+            />
+            <a
+              className="btn btn-ghost"
+              href={venue.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Pin />
+              Directions to the muhurtham
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
