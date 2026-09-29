@@ -1,3 +1,4 @@
+import { getContent } from "@/lib/content";
 import Preloader from "@/components/Preloader";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
@@ -13,7 +14,23 @@ import Blessing from "@/components/Blessing";
 import Footer from "@/components/Footer";
 import { Paisley } from "@/components/Ornaments";
 
-export default function Home() {
+/** Order and visibility both come from the content document. */
+const SECTIONS = {
+  invitation: Invitation,
+  countdown: Countdown,
+  story: Story,
+  celebration: Celebration,
+  gallery: Gallery,
+  venue: Venue,
+  rsvp: Rsvp,
+  faq: Faq,
+  blessing: Blessing,
+} as const;
+
+export default async function Home() {
+  const { sections } = await getContent();
+  const on = sections.filter((s) => s.enabled);
+
   return (
     <>
       <Preloader />
@@ -21,20 +38,22 @@ export default function Home() {
 
       <main>
         <Hero />
-        <Invitation />
-        <Countdown />
-        <Story />
-        <Celebration />
-        <Gallery />
-
-        <div className="seam" aria-hidden="true">
-          <Paisley />
-        </div>
-
-        <Venue />
-        <Rsvp />
-        <Faq />
-        <Blessing />
+        {on.map(({ key }, i) => {
+          const Section = SECTIONS[key];
+          if (!Section) return null;
+          // a small motif wherever two pale sections meet
+          const seam = key === "venue" && on[i - 1]?.key === "gallery";
+          return (
+            <div key={key} style={{ display: "contents" }}>
+              {seam && (
+                <div className="seam" aria-hidden="true">
+                  <Paisley />
+                </div>
+              )}
+              <Section />
+            </div>
+          );
+        })}
       </main>
 
       <Footer />

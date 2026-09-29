@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { contact, couple, party, site, wedding } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
 import SectionHead from "./SectionHead";
 import { Check } from "./Ornaments";
 
@@ -12,6 +12,7 @@ type Errors = Partial<
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export default function Rsvp() {
+  const { contact, couple, party, site, wedding } = useContent();
   const [attending, setAttending] = useState<"yes" | "no" | "">("");
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);

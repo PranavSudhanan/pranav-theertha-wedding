@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { gallery } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
 import SectionHead from "./SectionHead";
 import Lightbox from "./Lightbox";
-import { img } from "@/lib/images";
+import { photoProps } from "@/lib/images";
 
 export default function Gallery() {
+  const { gallery } = useContent();
   const [index, setIndex] = useState<number | null>(null);
 
   return (
@@ -30,9 +31,8 @@ export default function Gallery() {
               aria-label={`Open photo ${i + 1}: ${shot.alt}`}
             >
               <Image
-                src={img(shot.src)}
+                {...photoProps(shot)}
                 alt={shot.alt}
-                placeholder="blur"
                 sizes="(min-width: 1100px) 26vw, (min-width: 720px) 34vw, 48vw"
                 loading={i < 4 ? "eager" : "lazy"}
               />

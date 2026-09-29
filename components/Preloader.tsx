@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { couple, wedding } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
 
 export default function Preloader() {
+  const { couple, wedding } = useContent();
   const [done, setDone] = useState(false);
 
   useEffect(() => {

@@ -34,9 +34,40 @@ const REGISTRY: Record<string, StaticImageData> = {
 export function img(src: string): StaticImageData {
   const found = REGISTRY[src];
   if (!found) {
-    throw new Error(
-      `No image registered for "${src}". Add an import for it in lib/images.ts.`
-    );
+    // A path typed into the admin panel must never white-screen the site.
+    // Fall back to the first photograph and say so in the log.
+    console.error(`No image registered for "${src}" — see lib/images.ts.`);
+    return c01;
   }
   return found;
+}
+
+/**
+ * The props <Image> needs for a photograph that may not be in the registry.
+ *
+ * Anything uploaded through the admin panel arrives as a URL the bundler has
+ * never seen, so there is no import to read dimensions or a blurred preview
+ * from. The browser measures and previews it at upload time instead and
+ * stores both alongside the URL, which is why an uploaded photo still fades
+ * up the same way a built-in one does.
+ */
+export function photoProps(shot: {
+  src: string;
+  width?: number;
+  height?: number;
+  blurDataURL?: string;
+}) {
+  const known = REGISTRY[shot.src];
+  if (known) return { src: known, placeholder: "blur" as const };
+
+  return {
+    src: shot.src,
+    // A photo saved before dimensions were recorded still has to render;
+    // 3:4 is the shape of every picture that shipped with the site.
+    width: shot.width ?? 1200,
+    height: shot.height ?? 1600,
+    ...(shot.blurDataURL
+      ? { placeholder: "blur" as const, blurDataURL: shot.blurDataURL }
+      : {}),
+  };
 }

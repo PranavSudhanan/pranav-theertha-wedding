@@ -1,7 +1,9 @@
-import { couple } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import { Mandala, Paisley } from "./Ornaments";
 
-export default function Blessing() {
+export default async function Blessing() {
+  const { couple, blessing } = await getContent();
+
   return (
     <section className="band blessing">
       <span className="blessing__mandala" aria-hidden="true">
@@ -11,18 +13,10 @@ export default function Blessing() {
       <div className="shell-narrow">
         <div data-reveal="fade">
           <p className="blessing__shloka deva" lang="sa">
-            ॐ सह नाववतु । सह नौ भुनक्तु ।
-            <br />
-            सह वीर्यं करवावहै ।
+            {blessing.shloka}
           </p>
-          <p className="blessing__roman">
-            Om saha nāvavatu · saha nau bhunaktu · saha vīryaṃ karavāvahai
-          </p>
-          <p className="blessing__gloss">
-            May we be protected together. May we be nourished together.
-            <br />
-            May we work together with great vigour.
-          </p>
+          <p className="blessing__roman">{blessing.roman}</p>
+          <p className="blessing__gloss">{blessing.gloss}</p>
         </div>
 
         <span
@@ -38,14 +32,14 @@ export default function Blessing() {
           data-reveal="fade"
           style={{ ["--d" as string]: "80ms" }}
         >
-          No gifts, please
+          {blessing.eyebrow}
         </p>
         <p
           className="blessing__quote"
           data-reveal
           style={{ ["--d" as string]: "160ms", marginTop: "1.2rem" }}
         >
-          Your presence and your blessings are the only gift we are asking for.
+          {blessing.quote}
         </p>
         <p
           className="eyebrow"

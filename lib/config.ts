@@ -122,6 +122,9 @@ export const schedule = [
 /** The city the course was in — neither home, and roughly midway between them. */
 export const met = { place: "Kochi", when: "July 2022" } as const;
 
+/** Where the wedding itself happens — used by the last story chapter. */
+const venueCity = "Kozhikode";
+
 /**
  * Our story — the real one.
  * Met July 2022 as batch mates on the same course in Kochi; friends first,
@@ -136,6 +139,8 @@ export const story = [
     date: met.when,
     title: `A classroom in ${met.place}`,
     body: `Batch mates, nothing more. One of us had come up from ${couple.groom.home} and the other down from ${couple.bride.home}, to a city that sits almost exactly halfway between the two. Neither of us had turned up looking for anything but a certificate.`,
+    place: met.place,
+    aside: "Two hundred kilometres each, to meet in the middle.",
     image: "/images/couple-07.jpg",
   },
   {
@@ -144,6 +149,8 @@ export const story = [
     title: "Friends first",
     body:
       "Friendship came easily, and took its own time turning into something else. By the time either of us thought to name it, it had already happened.",
+    place: "", // no single place — this one happened over months
+    aside: "The course ended. We did not.",
     image: "/images/couple-02.jpg",
   },
   {
@@ -151,6 +158,8 @@ export const story = [
     date: "2023",
     title: "Telling them",
     body: `The year ${couple.bride.first}'s family came to know about us. What the two of us had been carrying quietly became something our families would carry with us.`,
+    place: couple.bride.home,
+    aside: "Known at home long before it was known to you.",
     image: "/images/couple-06.jpg",
   },
   {
@@ -158,6 +167,8 @@ export const story = [
     date: "March 2026",
     title: `${couple.groom.home} comes to ${couple.bride.home}`,
     body: `${couple.groom.first}'s family made the journey north, to ${couple.bride.first}'s home. Every photograph on this page is from that afternoon — the matching wine, the red roses, the palms in the garden.`,
+    place: couple.bride.home,
+    aside: "Both of us in wine, and a bunch of red roses.",
     image: "/images/couple-04.jpg",
   },
   {
@@ -165,6 +176,8 @@ export const story = [
     date: "May 2026",
     title: `${couple.bride.home} comes to ${couple.groom.home}`,
     body: `Two months later ${couple.bride.first}'s family travelled south. Somewhere between the coffee and the goodbyes, a date was fixed and the waiting turned into planning.`,
+    place: couple.groom.home,
+    aside: "The same journey, in reverse.",
     image: "/images/couple-08.jpg",
   },
   {
@@ -173,8 +186,20 @@ export const story = [
     title: "And now, the wedding",
     body:
       "Four years from a classroom to a muhurtham. All that is left is the hour itself — and the people we want standing around us when it arrives. We hope that means you.",
+    place: venueCity,
+    aside: "And this time, everyone travels.",
     image: "/images/couple-05.jpg",
   },
+] as const;
+
+/**
+ * The line that closes the story. Plain facts, counted.
+ */
+export const storyStats = [
+  { value: "Four", label: "years" },
+  { value: "Three", label: "cities" },
+  { value: "Two", label: "families" },
+  { value: "One", label: "morning in November" },
 ] as const;
 
 export const gallery = [

@@ -1,4 +1,4 @@
-import { couple, party, venue, wedding } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import { CornerLeaves, Ganesha, Mandala, Rule } from "./Ornaments";
 
 function Person({
@@ -21,7 +21,9 @@ function Person({
   );
 }
 
-export default function Invitation() {
+export default async function Invitation() {
+  const { couple, party, venue, wedding } = await getContent();
+
   return (
     <section className="invite band" id="invitation">
       {/* A kolam drawn faintly across the whole band, so the card sits on

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { couple, party, wedding } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
+import { weddingDate } from "@/lib/content-types";
 import { Rule } from "./Ornaments";
 import CalendarButton from "./CalendarButton";
 import { img } from "@/lib/images";
@@ -20,12 +21,14 @@ function split(ms: number) {
 }
 
 export default function Countdown() {
+  const content = useContent();
+  const { couple, party, wedding } = content;
   const [parts, setParts] = useState<number[] | null>(null);
   const [past, setPast] = useState(false);
 
   useEffect(() => {
     const tick = () => {
-      const delta = wedding.date.getTime() - Date.now();
+      const delta = weddingDate(content).getTime() - Date.now();
       setPast(delta <= 0);
       setParts(split(delta));
     };

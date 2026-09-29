@@ -1,8 +1,10 @@
-import { couple, venue, wedding } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import ShareButton from "./ShareButton";
 import CalendarButton from "./CalendarButton";
 
-export default function Footer() {
+export default async function Footer() {
+  const { couple, venue, wedding } = await getContent();
+
   return (
     <footer className="foot">
       <div className="shell">

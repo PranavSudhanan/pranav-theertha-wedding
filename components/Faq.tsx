@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { contact, faqs } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
 import SectionHead from "./SectionHead";
 
 export default function Faq() {
+  const { contact, faqs } = useContent();
   const [open, setOpen] = useState<number | null>(0);
 
   const hasContact = Boolean(contact.whatsapp || contact.altPhone || contact.email);

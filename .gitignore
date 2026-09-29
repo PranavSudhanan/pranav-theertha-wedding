@@ -7,3 +7,9 @@ out
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# local RSVP store (development only)
+.data
+
+# photographs uploaded through the admin panel (development only)
+public/uploads

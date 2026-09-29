@@ -140,7 +140,7 @@ body::after {
 }
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: clamp(0.62rem, 0.9vw, 0.72rem);
+  font-size: calc(clamp(0.62rem, 0.9vw, 0.72rem) * var(--display-scale, 1));
   font-weight: 400;
   letter-spacing: 0.42em;
   text-transform: uppercase;
@@ -148,7 +148,7 @@ body::after {
 }
 .lede {
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: calc(clamp(1.15rem, 2vw, 1.5rem) * var(--display-scale, 1));
   font-weight: 300;
   line-height: 1.6;
   color: var(--forest-2);
@@ -156,14 +156,14 @@ body::after {
 }
 .prose {
   color: var(--muted);
-  font-size: clamp(0.95rem, 1.1vw, 1.02rem);
+  font-size: calc(clamp(0.95rem, 1.1vw, 1.02rem) * var(--display-scale, 1));
   line-height: 1.85;
   max-width: var(--measure);
 }
 .s-title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(2.3rem, 5.5vw, 4.2rem);
+  font-size: calc(clamp(2.3rem, 5.5vw, 4.2rem) * var(--display-scale, 1));
   line-height: 1.05;
   color: var(--forest);
   letter-spacing: -0.01em;
@@ -186,10 +186,10 @@ section {
   position: relative;
 }
 .band {
-  padding-block: clamp(5rem, 11vw, 10rem);
+  padding-block: calc(clamp(5rem, 11vw, 10rem) * var(--section-scale, 1));
 }
 .band-tight {
-  padding-block: clamp(3.5rem, 7vw, 6rem);
+  padding-block: calc(clamp(3.5rem, 7vw, 6rem) * var(--section-scale, 1));
 }
 .center {
   text-align: center;
@@ -365,7 +365,7 @@ section {
 }
 .preloader__mono {
   font-family: var(--font-script);
-  font-size: clamp(3.4rem, 9vw, 5.5rem);
+  font-size: calc(clamp(3.4rem, 9vw, 5.5rem) * var(--display-scale, 1));
   color: var(--gold);
   line-height: 1;
 }
@@ -517,7 +517,7 @@ section {
 }
 .drawer__list a {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 8vw, 2.9rem);
+  font-size: calc(clamp(1.9rem, 8vw, 2.9rem) * var(--display-scale, 1));
   font-weight: 300;
   color: var(--forest);
   opacity: 0;
@@ -586,14 +586,14 @@ section {
 .hero__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(3.3rem, 13vw, 8.5rem);
+  font-size: calc(clamp(3.3rem, 13vw, 8.5rem) * var(--display-scale, 1));
   line-height: 0.92;
   color: var(--forest);
   letter-spacing: -0.02em;
 }
 .hero__amp {
   font-family: var(--font-script);
-  font-size: clamp(3.1rem, 9.5vw, 6rem);
+  font-size: calc(clamp(3.1rem, 9.5vw, 6rem) * var(--display-scale, 1));
   color: var(--gold);
   line-height: 0.75;
   margin-block: 0.08em;
@@ -605,13 +605,13 @@ section {
 }
 .hero__date {
   font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-size: calc(clamp(1.05rem, 2vw, 1.4rem) * var(--display-scale, 1));
   line-height: 1.45;
   letter-spacing: 0.06em;
   color: var(--forest-2);
 }
 .hero__venue {
-  font-size: clamp(0.62rem, 1.7vw, 0.7rem);
+  font-size: calc(clamp(0.62rem, 1.7vw, 0.7rem) * var(--display-scale, 1));
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
@@ -820,13 +820,13 @@ section {
 .invite__blessing {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: calc(clamp(1rem, 2vw, 1.25rem) * var(--display-scale, 1));
   color: var(--forest-2);
   margin-top: 1.1rem;
 }
 .invite__intro {
   font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+  font-size: calc(clamp(1.05rem, 2.1vw, 1.35rem) * var(--display-scale, 1));
   color: var(--forest-2);
   line-height: 1.6;
   max-width: 34ch;
@@ -834,7 +834,7 @@ section {
 }
 .invite__name {
   font-family: var(--font-script);
-  font-size: clamp(2.6rem, 8vw, 4.6rem);
+  font-size: calc(clamp(2.6rem, 8vw, 4.6rem) * var(--display-scale, 1));
   color: var(--gold);
   line-height: 1.15;
   padding-block: 0.1em;
@@ -848,14 +848,14 @@ section {
 }
 .invite__parents {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 2vw, 1.22rem);
+  font-size: calc(clamp(1rem, 2vw, 1.22rem) * var(--display-scale, 1));
   color: var(--forest);
   margin-top: 0.15rem;
 }
 .invite__with {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  font-size: calc(clamp(1.2rem, 3vw, 1.7rem) * var(--display-scale, 1));
   color: var(--gold);
   margin-block: clamp(1.2rem, 3vw, 2rem);
   position: relative;
@@ -879,7 +879,7 @@ section {
 }
 .invite__row dd {
   font-family: var(--font-display);
-  font-size: clamp(1.02rem, 2vw, 1.4rem);
+  font-size: calc(clamp(1.02rem, 2vw, 1.4rem) * var(--display-scale, 1));
   line-height: 1.35;
   color: var(--forest);
   margin: 0;
@@ -938,7 +938,7 @@ section {
 .count__title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-size: calc(clamp(2rem, 5vw, 3.4rem) * var(--display-scale, 1));
   color: var(--paper);
   line-height: 1.1;
 }
@@ -972,14 +972,14 @@ section {
 .count__num {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(2.1rem, 8vw, 4.4rem);
+  font-size: calc(clamp(2.1rem, 8vw, 4.4rem) * var(--display-scale, 1));
   line-height: 1;
   color: var(--paper);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 .count__lbl {
-  font-size: clamp(0.5rem, 1.4vw, 0.62rem);
+  font-size: calc(clamp(0.5rem, 1.4vw, 0.62rem) * var(--display-scale, 1));
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold-pale);
@@ -990,7 +990,7 @@ section {
   color: rgba(252, 249, 244, 0.78);
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: calc(clamp(1rem, 2vw, 1.25rem) * var(--display-scale, 1));
 }
 
 /* ---------- 14. Story ---------- */
@@ -1020,18 +1020,6 @@ section {
 .story__item:hover .story__figure img {
   transform: scale(1.05);
 }
-.story__chapter {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 9vw, 6rem);
-  line-height: 0.8;
-  color: var(--shell);
-  position: absolute;
-  top: -0.15em;
-  right: 0;
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
-}
 .story__body {
   position: relative;
   z-index: 1;
@@ -1048,13 +1036,16 @@ section {
 .story__title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.75rem, 4vw, 2.7rem);
+  font-size: calc(clamp(1.75rem, 4vw, 2.7rem) * var(--display-scale, 1));
   line-height: 1.12;
   color: var(--forest);
 }
 @media (min-width: 860px) {
   .story__item {
-    grid-template-columns: 0.85fr 1.15fr;
+    /* Even halves: the thread sits at 50%, which must land in the gap
+       between the columns, not inside one of them. The picture caps its
+       own width below, so it no longer needs a narrower column. */
+    grid-template-columns: 1fr 1fr;
   }
   .story__figure {
     width: min(100%, clamp(340px, 30vw, 560px));
@@ -1125,7 +1116,7 @@ section {
 .sched__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-size: calc(clamp(1.5rem, 3vw, 2.1rem) * var(--display-scale, 1));
   line-height: 1.15;
   color: var(--forest);
 }
@@ -1298,13 +1289,13 @@ section {
 .venue__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  font-size: calc(clamp(2.1rem, 5vw, 3.4rem) * var(--display-scale, 1));
   line-height: 1.05;
   color: var(--forest);
 }
 .venue__addr {
   font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-size: calc(clamp(1.05rem, 2vw, 1.3rem) * var(--display-scale, 1));
   color: var(--forest-2);
   font-style: italic;
 }
@@ -1329,7 +1320,7 @@ section {
 }
 .travel__title {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  font-size: calc(clamp(1.2rem, 2.4vw, 1.5rem) * var(--display-scale, 1));
   color: var(--forest);
 }
 .travel__detail {
@@ -1516,7 +1507,7 @@ section {
   padding: clamp(1.1rem, 3vw, 1.7rem) 0;
   text-align: left;
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-size: calc(clamp(1.15rem, 2.4vw, 1.55rem) * var(--display-scale, 1));
   font-weight: 300;
   color: var(--forest);
   transition: color 0.4s;
@@ -1595,7 +1586,7 @@ section {
   font-family: var(--font-display);
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  font-size: calc(clamp(1.5rem, 4vw, 2.6rem) * var(--display-scale, 1));
   line-height: 1.4;
   color: var(--paper);
   max-width: 24ch;
@@ -1613,13 +1604,13 @@ section {
 }
 .foot__mono {
   font-family: var(--font-script);
-  font-size: clamp(3rem, 8vw, 4.6rem);
+  font-size: calc(clamp(3rem, 8vw, 4.6rem) * var(--display-scale, 1));
   color: var(--gold);
   line-height: 1;
 }
 .foot__names {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  font-size: calc(clamp(1.2rem, 2.6vw, 1.6rem) * var(--display-scale, 1));
   color: var(--forest);
   letter-spacing: 0.08em;
   margin-top: 0.8rem;
@@ -1766,7 +1757,7 @@ section {
 
 /* ---------- 27. Invitation: om, Ganapati, the party block ---------- */
 .invite .om {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: calc(clamp(1.5rem, 3vw, 2rem) * var(--display-scale, 1));
   margin-bottom: 0.3rem;
   opacity: 0.85;
 }
@@ -1801,7 +1792,7 @@ section {
 }
 .invite__party-strong {
   font-family: var(--font-display);
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-size: calc(clamp(1.05rem, 2.2vw, 1.35rem) * var(--display-scale, 1));
   color: var(--forest);
   line-height: 1.3;
 }
@@ -1825,7 +1816,7 @@ section {
   margin-top: clamp(1.6rem, 4vw, 2.2rem);
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(0.98rem, 2vw, 1.15rem);
+  font-size: calc(clamp(0.98rem, 2vw, 1.15rem) * var(--display-scale, 1));
   line-height: 1.7;
   color: var(--forest-2);
   max-width: 34ch;
@@ -1861,13 +1852,13 @@ section {
 .day__title {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-size: calc(clamp(1.9rem, 4.5vw, 3rem) * var(--display-scale, 1));
   line-height: 1.05;
   color: var(--forest);
 }
 .day__venue {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 2vw, 1.22rem);
+  font-size: calc(clamp(1rem, 2vw, 1.22rem) * var(--display-scale, 1));
   font-style: italic;
   color: var(--forest-2);
 }
@@ -1968,14 +1959,14 @@ section {
 .place__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+  font-size: calc(clamp(1.7rem, 3.6vw, 2.5rem) * var(--display-scale, 1));
   line-height: 1.05;
   color: var(--forest);
 }
 .place__where {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1rem, 2vw, 1.18rem);
+  font-size: calc(clamp(1rem, 2vw, 1.18rem) * var(--display-scale, 1));
   color: var(--forest-2);
   line-height: 1.5;
 }
@@ -2027,7 +2018,7 @@ section {
   z-index: 1;
 }
 .blessing__shloka {
-  font-size: clamp(1.15rem, 3vw, 1.85rem);
+  font-size: calc(clamp(1.15rem, 3vw, 1.85rem) * var(--display-scale, 1));
   color: var(--gold-pale);
   line-height: 1.85;
 }
@@ -2035,12 +2026,12 @@ section {
   margin-top: 1rem;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(0.92rem, 1.9vw, 1.1rem);
+  font-size: calc(clamp(0.92rem, 1.9vw, 1.1rem) * var(--display-scale, 1));
   color: rgba(252, 249, 244, 0.72);
 }
 .blessing__gloss {
   margin-top: 0.7rem;
-  font-size: clamp(0.78rem, 1.6vw, 0.88rem);
+  font-size: calc(clamp(0.78rem, 1.6vw, 0.88rem) * var(--display-scale, 1));
   line-height: 1.8;
   color: rgba(252, 249, 244, 0.5);
   letter-spacing: 0.04em;
@@ -2198,10 +2189,10 @@ section {
     gap: 1.05rem;
   }
   .hero__name {
-    font-size: clamp(3rem, 10.5vw, 6.6rem);
+    font-size: calc(clamp(3rem, 10.5vw, 6.6rem) * var(--display-scale, 1));
   }
   .hero__amp {
-    font-size: clamp(2.6rem, 7.5vw, 4.6rem);
+    font-size: calc(clamp(2.6rem, 7.5vw, 4.6rem) * var(--display-scale, 1));
   }
   .hero__plan {
     gap: 0.4rem;
@@ -2269,10 +2260,10 @@ section {
   }
   .hero__name {
     color: var(--paper);
-    font-size: clamp(2.9rem, 14vw, 4.4rem);
+    font-size: calc(clamp(2.9rem, 14vw, 4.4rem) * var(--display-scale, 1));
   }
   .hero__date {
-    font-size: clamp(0.98rem, 3.9vw, 1.2rem);
+    font-size: calc(clamp(0.98rem, 3.9vw, 1.2rem) * var(--display-scale, 1));
   }
   .hero__meta {
     gap: 0.2rem;
@@ -2389,15 +2380,6 @@ section {
 }
 
 /* ---- Nav gets out of the way going down, returns coming up ---- */
-.nav {
-  transition: background 0.5s var(--ease), box-shadow 0.5s var(--ease),
-    transform 0.55s var(--ease);
-  will-change: transform;
-}
-.nav.hide {
-  transform: translateY(-101%);
-}
-
 /* ---- Hero: a very slow drift, so the photograph is never quite still ---- */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .hero .arch img {
@@ -2598,7 +2580,7 @@ section {
 .lb__cap {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(0.88rem, 2vw, 1.02rem);
+  font-size: calc(clamp(0.88rem, 2vw, 1.02rem) * var(--display-scale, 1));
   color: rgba(252, 249, 244, 0.68);
   text-align: center;
   max-width: 44ch;
@@ -2632,7 +2614,7 @@ section {
 }
 .preloader__names {
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-size: calc(clamp(0.95rem, 2.2vw, 1.15rem) * var(--display-scale, 1));
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--forest);
@@ -2703,13 +2685,13 @@ section {
   }
 
   .hero__name {
-    font-size: clamp(3.3rem, 6.6vw, 8.6rem);
+    font-size: calc(clamp(3.3rem, 6.6vw, 8.6rem) * var(--display-scale, 1));
   }
   .hero__amp {
-    font-size: clamp(3.1rem, 4.4vw, 5.4rem);
+    font-size: calc(clamp(3.1rem, 4.4vw, 5.4rem) * var(--display-scale, 1));
   }
   .hero__date {
-    font-size: clamp(1.05rem, 1.4vw, 1.5rem);
+    font-size: calc(clamp(1.05rem, 1.4vw, 1.5rem) * var(--display-scale, 1));
   }
   .hero__plan {
     max-width: 100%;
@@ -2835,4 +2817,179 @@ section {
   font-size: 1.05rem;
   letter-spacing: 0.02em;
   color: var(--forest-2);
+}
+
+/* ============================================================
+   39. Our Story — the long version.
+   A gold thread down the middle with a marker at each chapter,
+   a place against each date, a margin note where there is one,
+   and a counted line to close on.
+   ============================================================ */
+
+.story__lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: calc(clamp(1.1rem, 2.2vw, 1.45rem) * var(--display-scale, 1));
+  line-height: 1.65;
+  color: var(--forest-2);
+  text-align: center;
+  max-width: 46ch;
+  margin: clamp(1.4rem, 3vw, 2rem) auto 0;
+  text-wrap: pretty;
+}
+
+.story__thread {
+  position: relative;
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ---- the roman numeral, laid over the photograph ---- */
+.story__roman {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  z-index: 1;
+  min-width: 3.2rem;
+  padding: 0.45rem 0.9rem;
+  background: var(--paper);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+  text-align: center;
+  border-top: 1px solid rgba(166, 124, 52, 0.3);
+  border-inline-end: 1px solid rgba(166, 124, 52, 0.3);
+}
+/* pictures on the right of the spread carry it on their right edge */
+@media (min-width: 860px) {
+  .story__item:nth-child(even) .story__roman {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    border-inline-end: 0;
+    border-inline-start: 1px solid rgba(166, 124, 52, 0.3);
+  }
+}
+
+/* ---- date + place ---- */
+.story__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.story__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.story__place svg {
+  width: 12px;
+  height: 12px;
+  color: var(--gold);
+  flex: none;
+}
+
+/* ---- the margin note ---- */
+.story__aside {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(166, 124, 52, 0.22);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: calc(clamp(1rem, 2vw, 1.18rem) * var(--display-scale, 1));
+  line-height: 1.6;
+  color: var(--gold);
+  max-width: 40ch;
+}
+.story__aside span {
+  flex: none;
+  width: 15px;
+  margin-top: 0.3em;
+  color: var(--gold-2);
+}
+.story__aside svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ---- the closing count ---- */
+.story__count {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  background: rgba(166, 124, 52, 0.22);
+  border: 1px solid rgba(166, 124, 52, 0.22);
+}
+.story__stat {
+  background: var(--paper);
+  padding: clamp(1.4rem, 3vw, 2.2rem) 1rem;
+  text-align: center;
+  display: grid;
+  gap: 0.5rem;
+  align-content: center;
+}
+.story__stat-value {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: calc(clamp(1.7rem, 3.4vw, 2.6rem) * var(--display-scale, 1));
+  line-height: 1;
+  color: var(--forest);
+}
+.story__stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@media (min-width: 620px) {
+  .story__count {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 860px) {
+  /* the thread itself */
+  .story__thread::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    translate: -0.5px 0;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(166, 124, 52, 0.32) 6%,
+      rgba(166, 124, 52, 0.32) 94%,
+      transparent
+    );
+    pointer-events: none;
+  }
+  /* a marker where each chapter sits on it */
+  .story__item::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    translate: -50% -50%;
+    rotate: 45deg;
+    background: var(--paper);
+    border: 1px solid var(--gold);
+    z-index: 1;
+  }
+  .story__item:hover::after {
+    background: var(--gold);
+  }
 }

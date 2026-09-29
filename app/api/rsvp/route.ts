@@ -11,6 +11,7 @@ import {
   type Rsvp,
 } from "@/lib/rsvp-email";
 import { site } from "@/lib/config";
+import { addRsvp } from "@/lib/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -220,6 +221,16 @@ export async function POST(request: Request) {
     sendWebhook(rsvp),
     sendGuestCopy(rsvp),
   ]);
+
+  // Keep the response regardless of what happened to the email. This is the
+  // copy of record — the guest list is built from it, and it survives a
+  // deleted inbox or a provider outage. A storage failure must still never
+  // cost the guest their submission, so it only warns.
+  try {
+    await addRsvp(rsvp, { emailed, guestCopied, hooked });
+  } catch (err) {
+    console.error("[RSVP] could not be stored", err);
+  }
   if (rsvp.email && !guestCopied) {
     console.warn("[RSVP] guest copy not sent to", rsvp.email);
   }

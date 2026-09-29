@@ -1,4 +1,4 @@
-import { party, schedule, venue, wedding } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import CalendarButton from "./CalendarButton";
 import { Kalasha, Nilavilakku, Pin } from "./Ornaments";
@@ -40,7 +40,9 @@ function DayHead({
   );
 }
 
-export default function Celebration() {
+export default async function Celebration() {
+  const { party, schedule, venue, wedding } = await getContent();
+
   return (
     <section className="band bg-ivory" id="celebration">
       <div className="shell">

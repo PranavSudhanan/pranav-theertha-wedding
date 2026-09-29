@@ -1,16 +1,17 @@
 "use client";
 
-import { couple, party, site, venue, wedding } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
+import { addressOf, type Content } from "@/lib/content-types";
 import { CalendarIcon } from "./Ornaments";
 
 const esc = (s: string) => s.replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
 
 type Which = "wedding" | "party" | "both";
 
-const names = `${couple.groom.full} & ${couple.bride.full}`;
-
 /** The muhurtham — a timed event with a day-before reminder. */
-function weddingEvent(stamp: string) {
+function weddingEvent(stamp: string, c: Content) {
+  const { couple, site, venue, wedding } = c;
+  const names = `${couple.groom.full} & ${couple.bride.full}`;
   return [
     "BEGIN:VEVENT",
     `UID:muhurtham-${wedding.icsStart}@pranav-theertha`,
@@ -21,7 +22,7 @@ function weddingEvent(stamp: string) {
     `DESCRIPTION:${esc(
       `Muhurtham ${wedding.muhurtham}. Please be seated by 9:45 AM. ${site.url}`
     )}`,
-    `LOCATION:${esc(venue.address)}`,
+    `LOCATION:${esc(addressOf(venue))}`,
     "STATUS:CONFIRMED",
     "BEGIN:VALARM",
     "TRIGGER:-P1D",
@@ -36,7 +37,9 @@ function weddingEvent(stamp: string) {
  * The party. All-day until a time is set in lib/config.ts — better an honest
  * all-day entry than a time we invented.
  */
-function partyEvent(stamp: string) {
+function partyEvent(stamp: string, c: Content) {
+  const { couple, party, site } = c;
+  const names = `${couple.groom.full} & ${couple.bride.full}`;
   const timed = Boolean(party.icsStart && party.icsEnd);
   const nextDay = String(Number(party.icsDate) + 1);
 
@@ -52,7 +55,7 @@ function partyEvent(stamp: string) {
         ]),
     `SUMMARY:${esc(`${names} — ${party.label}`)}`,
     `DESCRIPTION:${esc(`${party.blurb} ${site.url}`)}`,
-    `LOCATION:${esc(party.venue.address)}`,
+    `LOCATION:${esc(addressOf(party.venue))}`,
     "STATUS:CONFIRMED",
     "END:VEVENT",
   ];
@@ -67,6 +70,9 @@ export default function CalendarButton({
   label?: string;
   which?: Which;
 }) {
+  const content = useContent();
+  const { party, wedding } = content;
+
   const download = () => {
     const stamp = new Date()
       .toISOString()
@@ -74,8 +80,8 @@ export default function CalendarButton({
       .replace(/\.\d{3}/, "");
 
     const events = [
-      ...(which === "party" || which === "both" ? partyEvent(stamp) : []),
-      ...(which === "wedding" || which === "both" ? weddingEvent(stamp) : []),
+      ...(which === "party" || which === "both" ? partyEvent(stamp, content) : []),
+      ...(which === "wedding" || which === "both" ? weddingEvent(stamp, content) : []),
     ];
 
     const ics = [

@@ -5,7 +5,8 @@ import {
   Jost,
   Tiro_Devanagari_Sanskrit,
 } from "next/font/google";
-import { site, couple, party, venue } from "@/lib/config";
+import { getContent, designCss } from "@/lib/content";
+import { ContentProvider } from "@/lib/content-client";
 import ScrollFx from "@/components/ScrollFx";
 import "./globals.css";
 
@@ -38,7 +39,9 @@ const sans = Jost({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const { site, couple, venue } = await getContent();
+  return {
   metadataBase: new URL(site.url),
   title: site.title,
   description: site.description,
@@ -66,7 +69,8 @@ export const metadata: Metadata = {
   alternates: { canonical: site.url },
   robots: { index: true, follow: true },
   formatDetection: { telephone: false },
-};
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#fcf9f4",
@@ -90,13 +94,15 @@ const place = (v: {
   },
 });
 
-const jsonLd = [
+const buildJsonLd = (c: Awaited<ReturnType<typeof getContent>>) => {
+  const { site, couple, party, venue, wedding } = c;
+  return [
   {
     "@context": "https://schema.org",
     "@type": "Event",
     name: `${couple.groom.full} & ${couple.bride.full} — Wedding`,
-    startDate: "2026-11-15T10:00:00+05:30",
-    endDate: "2026-11-15T10:30:00+05:30",
+    startDate: wedding.dateISO,
+    endDate: wedding.dateISO,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
     description: site.description,
@@ -107,8 +113,8 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "Event",
     name: `${couple.groom.full} & ${couple.bride.full} — ${party.label}`,
-    startDate: "2026-11-14",
-    endDate: "2026-11-14",
+    startDate: party.icsDate,
+    endDate: party.icsDate,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
     description: party.blurb,
@@ -116,10 +122,12 @@ const jsonLd = [
     location: place(party.venue),
   },
 ];
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const content = await getContent();
   return (
     <html
       lang="en"
@@ -141,16 +149,18 @@ export default function RootLayout({
               "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('fx')}}catch(e){}",
           }}
         />
+        {/* Design tokens from the admin panel, overriding globals.css. */}
+        <style dangerouslySetInnerHTML={{ __html: designCss(content.design) }} />
       </head>
       <body>
         <a className="skip" href="#invitation">
           Skip to content
         </a>
         <ScrollFx />
-        {children}
+        <ContentProvider value={content}>{children}</ContentProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(content)) }}
         />
       </body>
     </html>

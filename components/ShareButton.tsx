@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/lib/config";
+import { useContent } from "@/lib/content-client";
 
 export default function ShareButton() {
+  const { site } = useContent();
   const [label, setLabel] = useState("Share");
 
   const share = async () => {

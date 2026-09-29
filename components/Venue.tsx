@@ -1,39 +1,41 @@
 import Image from "next/image";
-import { party, travel, venue, wedding } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import { Kalasha, Nilavilakku, Pin } from "./Ornaments";
 import { img } from "@/lib/images";
 
-const places = [
-  {
-    motif: <Kalasha />,
-    tag: "Saturday",
-    date: party.dateLong,
-    time: party.time,
-    what: party.label,
-    name: party.venue.name,
-    where: `${party.venue.locality}, ${party.venue.city}`,
-    region: party.venue.region,
-    maps: party.venue.mapsUrl,
-    image: "/images/couple-01.jpg",
-    accent: false,
-  },
-  {
-    motif: <Nilavilakku />,
-    tag: "Sunday",
-    date: wedding.dateLong,
-    time: wedding.muhurtham,
-    what: "The Muhurtham",
-    name: venue.name,
-    where: `${venue.locality}, ${venue.city}`,
-    region: venue.region,
-    maps: venue.mapsUrl,
-    image: "/images/couple-05.jpg",
-    accent: true,
-  },
-];
+export default async function Venue() {
+  const { party, travel, venue, wedding } = await getContent();
 
-export default function Venue() {
+  const places = [
+    {
+      motif: <Kalasha />,
+      tag: "Saturday",
+      date: party.dateLong,
+      time: party.time,
+      what: party.label,
+      name: party.venue.name,
+      where: `${party.venue.locality}, ${party.venue.city}`,
+      region: party.venue.region,
+      maps: party.venue.mapsUrl,
+      image: "/images/couple-01.jpg",
+      accent: false,
+    },
+    {
+      motif: <Nilavilakku />,
+      tag: "Sunday",
+      date: wedding.dateLong,
+      time: wedding.muhurtham,
+      what: "The Muhurtham",
+      name: venue.name,
+      where: `${venue.locality}, ${venue.city}`,
+      region: venue.region,
+      maps: venue.mapsUrl,
+      image: "/images/couple-05.jpg",
+      accent: true,
+    },
+  ];
+
   return (
     <section className="band" id="venue">
       <div className="shell">

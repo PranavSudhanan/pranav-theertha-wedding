@@ -1,17 +1,17 @@
 import Image from "next/image";
-import { couple, party, venue, wedding } from "@/lib/config";
+import { getContent } from "@/lib/content";
 import { Rule } from "./Ornaments";
 import CalendarButton from "./CalendarButton";
 import { img } from "@/lib/images";
 
-/** The strip has room for the hour it starts, not the whole range. */
 const startOf = (t: string) =>
   t.split(/[–—-]/)[0].replace(/\s*onwards\s*$/i, "").trim();
 
-const shortPartyTime = startOf(party.time);
-const shortMuhurtham = startOf(wedding.muhurtham);
+export default async function Hero() {
+  const { couple, party, venue, wedding } = await getContent();
+  const shortPartyTime = startOf(party.time);
+  const shortMuhurtham = startOf(wedding.muhurtham);
 
-export default function Hero() {
   return (
     <section className="hero" id="top">
       <div className="shell hero__grid">

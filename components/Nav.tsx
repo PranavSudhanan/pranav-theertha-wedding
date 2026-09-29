@@ -1,45 +1,48 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { couple, nav, wedding } from "@/lib/config";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useContent } from "@/lib/content-client";
 
 export default function Nav() {
+  const content = useContent();
+  const { couple, wedding } = content;
+
+  // A link to a section that has been switched off would scroll nowhere.
+  const nav = useMemo(
+    () =>
+      content.nav.filter((item) => {
+        const section = content.sections.find((s) => `#${s.key}` === item.href);
+        return section ? section.enabled : true;
+      }),
+    [content.nav, content.sections]
+  );
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState<string>("");
   const [showFloat, setShowFloat] = useState(false);
-  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
-    let lastY = window.scrollY;
-
+    // Called straight from the scroll event rather than through
+    // requestAnimationFrame: whether the bar has a background — and so
+    // whether its links are readable over the page — must not wait on the
+    // animation frame loop. Browsers already fire scroll at most once a
+    // frame, so there is nothing to throttle.
     const paint = () => {
       const y = window.scrollY;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setSolid(y > 60);
       setProgress(max > 0 ? Math.min(y / max, 1) : 0);
       setShowFloat(y > window.innerHeight * 0.9);
-
-      // Step aside on the way down, come back the moment they scroll up.
-      const delta = y - lastY;
-      if (Math.abs(delta) > 6) {
-        setHidden(delta > 0 && y > window.innerHeight * 0.6);
-        lastY = y;
-      }
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(paint);
     };
 
     paint();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", paint, { passive: true });
+    window.addEventListener("resize", paint, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", paint);
+      window.removeEventListener("resize", paint);
+    };
   }, []);
 
   // Which section are we in?
@@ -77,11 +80,7 @@ export default function Nav() {
 
   return (
     <>
-      <header
-        className={`nav ${solid ? "solid" : ""} ${
-          hidden && !open ? "hide" : ""
-        }`}
-      >
+      <header className={`nav ${solid ? "solid" : ""}`}>
         <div className="shell nav__bar">
           <a href="#top" className="nav__mono" aria-label="Back to top">
             {couple.groom.initial} &amp; {couple.bride.initial}

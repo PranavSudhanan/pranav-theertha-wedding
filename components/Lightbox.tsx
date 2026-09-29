@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Arrow, Cross } from "./Ornaments";
-import { img } from "@/lib/images";
+import { photoProps } from "@/lib/images";
 
-export type Shot = { src: string; alt: string };
+import type { Photo } from "@/lib/content-types";
+
+export type Shot = Photo;
 
 const SWIPE = 48;
 
@@ -128,9 +130,8 @@ export default function Lightbox({
           <Image
             key={shot.src}
             className="lb__img"
-            src={img(shot.src)}
+            {...photoProps(shot)}
             alt={shot.alt}
-            placeholder="blur"
             sizes="(min-width: 900px) 900px, 100vw"
           />
           <figcaption className="lb__cap">{shot.alt}</figcaption>
@@ -162,7 +163,7 @@ export default function Lightbox({
         {near.map((n) => (
           <Image
             key={n.src}
-            src={img(n.src)}
+            {...photoProps(n)}
             alt=""
             sizes="(min-width: 900px) 900px, 100vw"
           />
