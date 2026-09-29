@@ -4,6 +4,13 @@ import { Rule } from "./Ornaments";
 import CalendarButton from "./CalendarButton";
 import { img } from "@/lib/images";
 
+/** The strip has room for the hour it starts, not the whole range. */
+const startOf = (t: string) =>
+  t.split(/[–—-]/)[0].replace(/\s*onwards\s*$/i, "").trim();
+
+const shortPartyTime = startOf(party.time);
+const shortMuhurtham = startOf(wedding.muhurtham);
+
 export default function Hero() {
   return (
     <section className="hero" id="top">
@@ -48,12 +55,16 @@ export default function Hero() {
           >
             <li>
               <span className="hero__plan-day">14 Nov</span>
-              <span className="hero__plan-what">{party.label}</span>
+              <span className="hero__plan-what">
+                {party.label} &nbsp;·&nbsp; {shortPartyTime}
+              </span>
               <span className="hero__plan-where">{party.venue.name}</span>
             </li>
             <li>
               <span className="hero__plan-day">15 Nov</span>
-              <span className="hero__plan-what">Muhurtham</span>
+              <span className="hero__plan-what">
+                Muhurtham &nbsp;·&nbsp; {shortMuhurtham}
+              </span>
               <span className="hero__plan-where">{venue.name}</span>
             </li>
           </ul>

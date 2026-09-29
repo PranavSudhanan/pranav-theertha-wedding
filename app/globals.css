@@ -1432,8 +1432,14 @@ section {
   grid-template-columns: 1fr 1fr;
   gap: 0.8rem;
 }
+/* Hidden but still focusable and checkable. The explicit 1px matters:
+   `.field input` sets width:100%, and on an absolutely-positioned control
+   sitting in the second column that stretches a phantom box off the right
+   edge of the page. */
 .choice input {
   position: absolute;
+  width: 1px;
+  height: 1px;
   opacity: 0;
   pointer-events: none;
 }
@@ -2058,6 +2064,8 @@ section {
 }
 .days input {
   position: absolute;
+  width: 1px;
+  height: 1px;
   opacity: 0;
   pointer-events: none;
 }
@@ -2808,4 +2816,23 @@ section {
   .s-head--left .s-head__rule::before {
     display: block;
   }
+}
+
+/* ---- Thank-you: the invitation, there and then ---- */
+.thanks__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---- Venue card: the hour, under the date ---- */
+.place__time {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: var(--forest-2);
 }

@@ -164,6 +164,32 @@ Responses are written to your Vercel runtime logs (**your project → Logs**) an
 guests still see a thank-you. Nothing breaks — but nothing reaches your inbox
 either, so do step 3 before you share the link.
 
+### Sending guests their own copy (currently OFF)
+
+`RSVP_GUEST_COPY=off`.
+
+When switched on, a guest who leaves an email address gets their own note back
+with **public/invitation.pdf attached**, and the thank-you screen tells them so.
+
+It needs a **domain you own, verified in Resend** — the shared
+`onboarding@resend.dev` sender only delivers to your own address, so with no
+domain the guest copy is simply rejected. Once you have one:
+
+1. Verify the domain in Resend (add the DNS records it gives you)
+2. `RSVP_FROM_EMAIL=Wedding <rsvp@yourdomain.com>`
+3. `RSVP_GUEST_COPY=on`
+
+Until then guests still get the invitation immediately — the thank-you screen
+offers **Download the invitation** and **Send it to yourself on WhatsApp**,
+neither of which needs email at all. The site never claims an email was sent
+unless the server actually sent one.
+
+Regenerate the PDF whenever the card artwork changes:
+
+```bash
+node scripts/make-invitation-pdf.mjs
+```
+
 ### If a response ever fails to send
 
 The guest is told plainly, the form keeps everything they typed, and the button

@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import {
   emailHtml,
   emailSubject,
   emailText,
+  guestHtml,
+  guestSubject,
+  guestText,
   type Rsvp,
 } from "@/lib/rsvp-email";
+import { site } from "@/lib/config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,6 +23,8 @@ const TO = process.env.RSVP_TO_EMAIL || "ls.pranav.36@gmail.com";
 const FROM = process.env.RSVP_FROM_EMAIL || "Wedding RSVP <onboarding@resend.dev>";
 const RESEND_KEY = process.env.RESEND_API_KEY;
 const WEBHOOK = process.env.RSVP_WEBHOOK_URL;
+/** Set to "off" to stop sending guests their own copy. */
+const GUEST_COPY = (process.env.RSVP_GUEST_COPY ?? "on").toLowerCase();
 
 type Payload = {
   name?: string;
@@ -74,6 +82,76 @@ async function sendEmail(r: Rsvp): Promise<boolean> {
     return true;
   } catch (err) {
     console.error("[RSVP] resend failed", err);
+    return false;
+  }
+}
+
+/** The invitation, read once per warm instance and kept as base64. */
+let invitationCache: string | null = null;
+async function invitationPdf(): Promise<string | null> {
+  if (invitationCache) return invitationCache;
+  try {
+    const file = path.join(process.cwd(), "public", "invitation.pdf");
+    invitationCache = (await readFile(file)).toString("base64");
+    return invitationCache;
+  } catch (err) {
+    console.error("[RSVP] could not read public/invitation.pdf", err);
+    return null;
+  }
+}
+
+/**
+ * The guest's own copy, with the invitation attached.
+ *
+ * Never allowed to affect what the guest sees: if this fails, their
+ * response is still recorded and they still get a thank-you.
+ */
+async function sendGuestCopy(r: Rsvp): Promise<boolean> {
+  if (!RESEND_KEY || !r.email || GUEST_COPY === "off") return false;
+
+  const pdf = await invitationPdf();
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [r.email],
+        reply_to: TO,
+        subject: guestSubject(),
+        html: guestHtml(r, site.url),
+        text: guestText(r, site.url),
+        ...(pdf
+          ? {
+              attachments: [
+                {
+                  filename: "Pranav-and-Theertha-Invitation.pdf",
+                  content: pdf,
+                },
+              ],
+            }
+          : {}),
+      }),
+    });
+
+    if (!res.ok) {
+      const detail = await res.text();
+      console.error("[RSVP] guest copy rejected", res.status, detail);
+      if (res.status === 403 && detail.includes("testing emails")) {
+        console.error(
+          "[RSVP] Resend will only deliver to your own address until a " +
+            "domain is verified. Verify one and set RSVP_FROM_EMAIL to it."
+        );
+      }
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[RSVP] guest copy failed", err);
     return false;
   }
 }
@@ -137,17 +215,21 @@ export async function POST(request: Request) {
   console.log("[RSVP]", JSON.stringify(rsvp));
 
   const configured = [RESEND_KEY, WEBHOOK].filter(Boolean).length;
-  const [emailed, hooked] = await Promise.all([
+  const [emailed, hooked, guestCopied] = await Promise.all([
     sendEmail(rsvp),
     sendWebhook(rsvp),
+    sendGuestCopy(rsvp),
   ]);
+  if (rsvp.email && !guestCopied) {
+    console.warn("[RSVP] guest copy not sent to", rsvp.email);
+  }
 
   if (configured === 0) {
     console.warn(
       "[RSVP] No RESEND_API_KEY and no RSVP_WEBHOOK_URL set — this response " +
         "exists only in these logs. See README section 4."
     );
-    return NextResponse.json({ ok: true, delivered: false });
+    return NextResponse.json({ ok: true, delivered: false, guestCopy: false });
   }
 
   if (!emailed && !hooked) {
@@ -158,5 +240,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, delivered: true });
+  return NextResponse.json({ ok: true, delivered: true, guestCopy: guestCopied });
 }

@@ -135,3 +135,104 @@ export function emailText(r: Rsvp) {
     .filter(Boolean)
     .join("\n");
 }
+
+/* ────────────────────────────────────────────────────────────
+   The copy that goes back to the guest, with the invitation
+   attached. Same stacked, fluid construction as above so it
+   survives a phone.
+   ──────────────────────────────────────────────────────────── */
+
+export function guestSubject() {
+  return "Pranav & Theertha — your invitation";
+}
+
+export function guestHtml(r: Rsvp, siteUrl: string) {
+  const coming = /accept/i.test(r.attending);
+  const first = esc(r.name.trim().split(" ")[0] || r.name);
+
+  const line = (label: string, value: string) =>
+    `<tr><td style="padding:13px 0;border-bottom:1px solid #eadfc7;">
+  <div style="color:#a67c34;font:11px/1.4 Helvetica,Arial,sans-serif;letter-spacing:2.5px;text-transform:uppercase;padding-bottom:5px">${esc(
+    label
+  )}</div>
+  <div style="color:#17372b;font:17px/1.5 Georgia,'Times New Roman',serif;${WRAP}">${value}</div>
+</td></tr>`;
+
+  return `<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+</head>
+<body style="margin:0;padding:0;background:#f7f1e8;${WRAP}">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f7f1e8;">
+<tr><td align="center" style="padding:20px 12px;">
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;max-width:560px;background:#fcf9f4;border:1px solid #e0cfa8;">
+
+  <tr><td align="center" style="padding:32px 22px 24px;border-bottom:1px solid #eadfc7;">
+    <div style="color:#a67c34;font:11px/1.5 Helvetica,Arial,sans-serif;letter-spacing:4px;text-transform:uppercase;">With the blessings of the Almighty</div>
+    <div style="margin:16px 0 0;color:#17372b;font:30px/1.2 Georgia,'Times New Roman',serif;">Pranav &amp; Theertha</div>
+    <div style="margin-top:12px;color:#6d6458;font:13px/1.6 Helvetica,Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;">15 . 11 . 2026</div>
+  </td></tr>
+
+  <tr><td style="padding:26px 22px 6px;color:#17372b;font:17px/1.7 Georgia,'Times New Roman',serif;${WRAP}">
+    Dear ${first},<br><br>
+    ${
+      coming
+        ? "Thank you — your response is with us, and we are so glad you will be there. Your invitation is attached."
+        : "Thank you for letting us know. We will miss you, but we are grateful you wrote. The invitation is attached, with our love."
+    }
+  </td></tr>
+
+  <tr><td style="padding:10px 22px 22px;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%;">
+      ${line(
+        "Wedding Party",
+        "Saturday, 14 November 2026 &middot; 4:00 – 9:00 PM<br>Hilltop Auditorium, Purakkattiri, Kozhikode"
+      )}
+      ${line(
+        "Muhurtham",
+        "Sunday, 15 November 2026 &middot; 10:00 – 10:30 AM<br>Reef Club Resort, Eranhikkal, Kozhikode"
+      )}
+    </table>
+  </td></tr>
+
+  <tr><td align="center" style="padding:4px 22px 28px;">
+    <a href="${esc(siteUrl)}" style="display:inline-block;padding:13px 26px;background:#17372b;color:#fcf9f4;font:11px/1.4 Helvetica,Arial,sans-serif;letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;">Directions &amp; details</a>
+  </td></tr>
+
+  <tr><td align="center" style="padding:16px 22px 26px;border-top:1px solid #eadfc7;color:#6d6458;font:12px/1.7 Helvetica,Arial,sans-serif;">
+    Your presence and your blessings are the only gift we are asking for.<br>
+    <span style="color:#a67c34;letter-spacing:2px;">#PRANAVWEDSTHEERTHA</span>
+  </td></tr>
+
+</table>
+
+</td></tr></table>
+</body></html>`;
+}
+
+export function guestText(r: Rsvp, siteUrl: string) {
+  const first = r.name.trim().split(" ")[0] || r.name;
+  const coming = /accept/i.test(r.attending);
+  return [
+    `Dear ${first},`,
+    "",
+    coming
+      ? "Thank you — your response is with us, and we are so glad you will be there. Your invitation is attached."
+      : "Thank you for letting us know. We will miss you, but we are grateful you wrote. The invitation is attached, with our love.",
+    "",
+    "WEDDING PARTY",
+    "Saturday, 14 November 2026, 4:00 - 9:00 PM",
+    "Hilltop Auditorium, Purakkattiri, Kozhikode",
+    "",
+    "MUHURTHAM",
+    "Sunday, 15 November 2026, 10:00 - 10:30 AM",
+    "Reef Club Resort, Eranhikkal, Kozhikode",
+    "",
+    `Directions and details: ${siteUrl}`,
+    "",
+    "Pranav & Theertha",
+  ].join("\n");
+}

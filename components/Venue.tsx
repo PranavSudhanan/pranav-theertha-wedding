@@ -9,6 +9,7 @@ const places = [
     motif: <Kalasha />,
     tag: "Saturday",
     date: party.dateLong,
+    time: party.time,
     what: party.label,
     name: party.venue.name,
     where: `${party.venue.locality}, ${party.venue.city}`,
@@ -21,6 +22,7 @@ const places = [
     motif: <Nilavilakku />,
     tag: "Sunday",
     date: wedding.dateLong,
+    time: wedding.muhurtham,
     what: "The Muhurtham",
     name: venue.name,
     where: `${venue.locality}, ${venue.city}`,
@@ -73,7 +75,10 @@ export default function Venue() {
                   <br />
                   <span>{p.region}</span>
                 </p>
-                <p className="place__date">{p.date}</p>
+                <p className="place__date">
+                  {p.date}
+                  <span className="place__time">{p.time}</span>
+                </p>
                 <a
                   className={`btn ${p.accent ? "btn-solid" : "btn-ghost"}`}
                   href={p.maps}

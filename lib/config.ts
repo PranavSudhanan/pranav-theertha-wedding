@@ -63,16 +63,15 @@ export const venue = {
 /**
  * The celebration the evening before the muhurtham.
  *
- * Starts at 4:00 PM. The calendar entry runs 4:00–9:00 PM IST; only the start
- * time came from you, so adjust `icsEnd` if the evening runs longer or shorter.
- * (IST is UTC+5:30, so 4:00 PM = 10:30 UTC.)
+ * 4:00–9:00 PM, as printed on the card. The calendar entry matches.
+ * (IST is UTC+5:30, so 4:00 PM = 10:30 UTC and 9:00 PM = 15:30 UTC.)
  */
 export const party = {
   label: "Wedding Party",
   date: new Date("2026-11-14T12:00:00+05:30"),
   dateLong: "Saturday, 14 November 2026",
   dateShort: "14 . 11 . 2026",
-  time: "4:00 PM onwards",
+  time: "4:00 PM – 9:00 PM",
   icsDate: "20261114",
   icsStart: "20261114T103000Z",
   icsEnd: "20261114T153000Z",

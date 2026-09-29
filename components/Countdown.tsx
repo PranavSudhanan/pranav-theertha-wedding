@@ -114,9 +114,8 @@ export default function Countdown() {
             data-reveal="fade"
             style={{ ["--d" as string]: "240ms" }}
           >
-            And the evening before — {party.dateLong} at {party.venue.name},
-            {" "}
-            {party.venue.locality}.
+            And the evening before — {party.dateLong}, {party.time}, at{" "}
+            {party.venue.name}, {party.venue.locality}.
           </p>
         )}
 

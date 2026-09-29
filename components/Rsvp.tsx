@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { contact, couple, party, wedding } from "@/lib/config";
+import { contact, couple, party, site, wedding } from "@/lib/config";
 import SectionHead from "./SectionHead";
 import { Check } from "./Ornaments";
 
@@ -17,6 +17,7 @@ export default function Rsvp() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
+  const [sentTo, setSentTo] = useState<string>("");
 
   /** Clear a complaint the moment the guest puts it right. */
   const clearErr = (key: keyof Errors) =>
@@ -49,6 +50,9 @@ export default function Rsvp() {
         body: JSON.stringify({ ...data, submittedAt: new Date().toISOString() }),
       });
       if (!res.ok) throw new Error(String(res.status));
+      // Only promise the guest an email if the server actually sent one.
+      const out = (await res.json().catch(() => ({}))) as { guestCopy?: boolean };
+      setSentTo(out.guestCopy ? (data.email?.trim() ?? "") : "");
       setSent(data.name.trim().split(" ")[0]);
     } catch {
       // Never pretend it worked — tell them, and give them another way through.
@@ -57,6 +61,14 @@ export default function Rsvp() {
       setSending(false);
     }
   };
+
+  // A deep link cannot carry a file, so it carries the link to one.
+  const INVITATION = "/invitation.pdf";
+  const shareHref = `https://wa.me/?text=${encodeURIComponent(
+    `${couple.groom.first} & ${couple.bride.first} are getting married on ${wedding.dateLong}. ` +
+      `Invitation: ${site.url}${INVITATION}
+Details & RSVP: ${site.url}`
+  )}`;
 
   const waHref = contact.whatsapp
     ? `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(
@@ -92,20 +104,45 @@ export default function Rsvp() {
               Thank you, {sent}
             </h3>
             <p className="prose" style={{ textAlign: "center" }}>
-              Your response is with us. We will be in touch closer to the day —
-              and we cannot wait to see you on {wedding.dateLong}.
+              Your response is with us. We cannot wait to see you on{" "}
+              {wedding.dateLong}.
+              {sentTo && (
+                <>
+                  {" "}
+                  A copy of the invitation is on its way to{" "}
+                  <strong style={{ fontWeight: 400, color: "var(--forest)" }}>
+                    {sentTo}
+                  </strong>
+                  .
+                </>
+              )}
             </p>
-            <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", justifyContent: "center" }}>
+
+            <div className="thanks__actions">
+              <a className="btn btn-solid" href={INVITATION} download>
+                Download the invitation
+              </a>
+              <a
+                className="btn btn-ghost"
+                href={shareHref}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Send it to yourself on WhatsApp
+              </a>
+            </div>
+
+            <div className="thanks__actions">
               <button
                 suppressHydrationWarning
-                className="btn btn-ghost"
+                className="foot__link"
                 onClick={() => setSent(null)}
               >
                 Send another response
               </button>
               {waHref && (
                 <a
-                  className="btn"
+                  className="foot__link"
                   href={waHref}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -209,13 +246,13 @@ export default function Rsvp() {
                       id: "day-party",
                       value: `${party.label} — ${party.dateShort}`,
                       title: party.label,
-                      sub: `Sat 14 Nov · ${party.venue.name}`,
+                      sub: `Sat 14 Nov, ${party.time} · ${party.venue.name}`,
                     },
                     {
                       id: "day-wedding",
                       value: `Muhurtham — ${wedding.dateShort}`,
                       title: "The Muhurtham",
-                      sub: "Sun 15 Nov · Reef Club Resort",
+                      sub: `Sun 15 Nov, ${wedding.muhurtham} · Reef Club Resort`,
                     },
                   ].map((d) => (
                     <div key={d.id}>
