@@ -124,6 +124,217 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Heading — Our Story",
+    path: "headings.story",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Heading — Celebration",
+    path: "headings.celebration",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Heading — Gallery",
+    path: "headings.gallery",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Heading — Venues",
+    path: "headings.venue",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Heading — RSVP",
+    path: "headings.rsvp",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Heading — Questions",
+    path: "headings.faq",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "title", label: "Title" },
+      { key: "lede", label: "Lead-in", long: true },
+    ],
+  },
+  {
+    title: "Opening screen",
+    path: "hero",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "dayOne", label: "First day, short" },
+      { key: "dayTwo", label: "Second day, short" },
+      { key: "muhurtham", label: "Word for the ceremony" },
+      { key: "scroll", label: "Scroll cue" },
+    ],
+  },
+  {
+    title: "Countdown",
+    path: "countdown",
+    fields: [
+      { key: "eyebrow", label: "Eyebrow" },
+      { key: "note", label: "Note — {muhurtham}", long: true },
+      { key: "before", label: "Evening before — {partyDate} {partyTime} {partyVenue} {partyLocality}", long: true },
+      { key: "unitDays", label: "Days" },
+      { key: "unitHours", label: "Hours" },
+      { key: "unitMinutes", label: "Minutes" },
+      { key: "unitSeconds", label: "Seconds" },
+      { key: "saveDate", label: "Button" },
+      { key: "pastEyebrow", label: "After the wedding — eyebrow" },
+      { key: "pastTitle", label: "After the wedding — title — {groom} {bride}" },
+      { key: "pastNote", label: "After the wedding — note", long: true },
+    ],
+  },
+  {
+    title: "Celebration labels",
+    path: "celebration",
+    fields: [
+      { key: "dayOne", label: "First day" },
+      { key: "dayTwo", label: "Second day" },
+      { key: "muhurtham", label: "Ceremony title" },
+      { key: "timeTba", label: "When no time is set" },
+      { key: "addParty", label: "Add-the-party button" },
+      { key: "addBoth", label: "Add-both-days button" },
+      { key: "directions", label: "Directions button" },
+      { key: "directionsMuhurtham", label: "Directions to the ceremony" },
+    ],
+  },
+  {
+    title: "Venue tags",
+    path: "venueLabels",
+    fields: [
+      { key: "saturday", label: "First day tag" },
+      { key: "sunday", label: "Second day tag" },
+      { key: "muhurtham", label: "Ceremony name" },
+    ],
+  },
+  {
+    title: "Invitation labels",
+    path: "invitationLabels",
+    fields: [
+      { key: "date", label: "Date" },
+      { key: "muhurtham", label: "Muhurtham" },
+      { key: "venue", label: "Venue" },
+    ],
+  },
+  {
+    title: "RSVP form — fields",
+    path: "rsvpForm",
+    fields: [
+      { key: "nameLabel", label: "Name label" },
+      { key: "namePlaceholder", label: "Name placeholder" },
+      { key: "phoneLabel", label: "Phone label" },
+      { key: "phonePlaceholder", label: "Phone placeholder" },
+      { key: "emailLabel", label: "Email label" },
+      { key: "emailPlaceholder", label: "Email placeholder" },
+      { key: "attendingLabel", label: "Attending question" },
+      { key: "accepts", label: "Accepting option" },
+      { key: "declines", label: "Declining option" },
+      { key: "daysLabel", label: "Which days question" },
+      { key: "guestsLabel", label: "How many question" },
+      { key: "guestOptions", label: "How many — options, comma separated", long: true },
+      { key: "sideLabel", label: "Whose guest question" },
+      { key: "sideNone", label: "Prefer not to say" },
+      { key: "sideBoth", label: "Both sides" },
+      { key: "messageLabel", label: "Message label" },
+      { key: "messagePlaceholder", label: "Message placeholder" },
+      { key: "submit", label: "Send button" },
+      { key: "sending", label: "While sending" },
+      { key: "retry", label: "After a failure" },
+      { key: "hint", label: "Hint under the button" },
+    ],
+  },
+  {
+    title: "RSVP form — after sending",
+    path: "rsvpForm",
+    fields: [
+      { key: "thanksTitle", label: "Thank-you title — {name}" },
+      { key: "thanksBody", label: "Thank-you body — {date}", long: true },
+      { key: "thanksCopy", label: "When a copy was emailed — {email}", long: true },
+      { key: "download", label: "Download button" },
+      { key: "shareSelf", label: "Send-to-myself button" },
+      { key: "another", label: "Another response button" },
+      { key: "sayHello", label: "WhatsApp button" },
+    ],
+  },
+  {
+    title: "RSVP form — when something goes wrong",
+    path: "rsvpForm",
+    fields: [
+      { key: "errorTitle", label: "Failure title" },
+      { key: "errorBody", label: "Failure message", long: true },
+      { key: "errorWhatsapp", label: "Fallback, with WhatsApp", long: true },
+      { key: "errorCall", label: "Fallback, without WhatsApp", long: true },
+      { key: "errName", label: "Missing name" },
+      { key: "errPhone", label: "Missing phone" },
+      { key: "errEmail", label: "Bad email" },
+      { key: "errAttending", label: "No answer chosen" },
+    ],
+  },
+  {
+    title: "Navigation labels",
+    path: "navLabels",
+    fields: [
+      { key: "rsvp", label: "RSVP button" },
+      { key: "sections", label: "Menu description" },
+      { key: "backToTop", label: "Monogram link" },
+      { key: "openMenu", label: "Open menu" },
+      { key: "closeMenu", label: "Close menu" },
+    ],
+  },
+  {
+    title: "Footer",
+    path: "footerLabels",
+    fields: [
+      { key: "rsvp", label: "RSVP link" },
+      { key: "directions", label: "Directions link" },
+      { key: "calendar", label: "Calendar link" },
+      { key: "backToTop", label: "Back to top" },
+      { key: "madeWith", label: "Closing line", long: true },
+    ],
+  },
+  {
+    title: "Share button",
+    path: "shareLabels",
+    fields: [
+      { key: "share", label: "Before sharing" },
+      { key: "copied", label: "After copying" },
+    ],
+  },
+  {
+    title: "Screen-reader labels",
+    path: "a11y",
+    fields: [
+      { key: "photoViewer", label: "Photo viewer" },
+      { key: "closePhoto", label: "Close" },
+      { key: "prevPhoto", label: "Previous photo" },
+      { key: "nextPhoto", label: "Next photo" },
+      { key: "openPhoto", label: "Open a photo — {n} {alt}" },
+      { key: "rsvpSent", label: "Response sent — {name}", long: true },
+      { key: "rsvpFailed", label: "Response failed", long: true },
+    ],
+  },
+  {
     title: "Site & sharing",
     path: "site",
     fields: [
@@ -197,6 +408,13 @@ const LISTS: ListGroup[] = [
       { key: "href", label: "Anchor" },
     ],
   },
+];
+
+const FIXED_PHOTOS: { key: "hero" | "countdown" | "venueParty" | "venueMuhurtham"; label: string }[] = [
+  { key: "hero", label: "Opening screen" },
+  { key: "countdown", label: "Behind the countdown" },
+  { key: "venueParty", label: "Party venue" },
+  { key: "venueMuhurtham", label: "Ceremony venue" },
 ];
 
 const COLOURS: { key: keyof Design; label: string }[] = [
@@ -407,10 +625,49 @@ export default function Editor({ initial }: { initial: Content }) {
               </button>
             </section>
             {l.path === "storyStats" && (
+              <>
               <GalleryEditor
                 value={draft.gallery}
                 onChange={(next: Photo[]) => edit("gallery", next)}
               />
+              <section className="ed__group">
+                <h2 className="ed__h">The four fixed photographs</h2>
+                <p className="ad__note">
+                  These sit in set places rather than in the gallery grid.
+                </p>
+                {FIXED_PHOTOS.map((f) => (
+                  <div className="ed__row" key={f.key}>
+                    <div className="ed__grid">
+                      <PhotoField
+                        label={f.label}
+                        src={draft.photos[f.key].src}
+                        onPath={(v) => {
+                          edit(`photos.${f.key}.src`, v);
+                          edit(`photos.${f.key}.width`, undefined);
+                          edit(`photos.${f.key}.height`, undefined);
+                          edit(`photos.${f.key}.blurDataURL`, undefined);
+                        }}
+                        onUpload={(photo) => {
+                          edit(`photos.${f.key}.src`, photo.src);
+                          edit(`photos.${f.key}.width`, photo.width);
+                          edit(`photos.${f.key}.height`, photo.height);
+                          edit(`photos.${f.key}.blurDataURL`, photo.blurDataURL);
+                        }}
+                      />
+                      <label className="ed__field is-wide">
+                        <span className="ad__label">Description</span>
+                        <input
+                          className="ad__input"
+                          value={draft.photos[f.key].alt}
+                          onChange={(e) => edit(`photos.${f.key}.alt`, e.target.value)}
+                          suppressHydrationWarning
+                        />
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </section>
+              </>
             )}
             </Fragment>
           ))}

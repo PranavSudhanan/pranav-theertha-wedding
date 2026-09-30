@@ -22,7 +22,7 @@ function Person({
 }
 
 export default async function Invitation() {
-  const { couple, party, venue, wedding } = await getContent();
+  const { couple, party, venue, wedding, invitationLabels } = await getContent();
 
   return (
     <section className="invite band" id="invitation">
@@ -85,15 +85,15 @@ export default async function Invitation() {
 
           <dl className="invite__details" data-reveal>
             <div className="invite__row">
-              <dt>Date</dt>
+              <dt>{invitationLabels.date}</dt>
               <dd>{wedding.dateLong}</dd>
             </div>
             <div className="invite__row">
-              <dt>Muhurtham</dt>
+              <dt>{invitationLabels.muhurtham}</dt>
               <dd>{wedding.muhurtham}</dd>
             </div>
             <div className="invite__row">
-              <dt>Venue</dt>
+              <dt>{invitationLabels.venue}</dt>
               <dd>
                 {venue.name}
                 <br />

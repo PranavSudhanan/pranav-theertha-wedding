@@ -3,21 +3,20 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useContent } from "@/lib/content-client";
+import { fill } from "@/lib/content-types";
 import SectionHead from "./SectionHead";
 import Lightbox from "./Lightbox";
 import { photoProps } from "@/lib/images";
 
 export default function Gallery() {
-  const { gallery } = useContent();
+  const { gallery, headings, a11y } = useContent();
   const [index, setIndex] = useState<number | null>(null);
 
   return (
     <section className="band" id="gallery">
       <div className="shell">
         <SectionHead
-          eyebrow="Gallery"
-          title="A few of our favourites"
-          lede="All from one afternoon in March 2026 — the day our families first sat in the same room."
+          {...headings.gallery}
         />
 
         <div className="gal">
@@ -28,7 +27,7 @@ export default function Gallery() {
               onClick={() => setIndex(i)}
               data-reveal="zoom"
               style={{ ["--d" as string]: `${(i % 4) * 90}ms` }}
-              aria-label={`Open photo ${i + 1}: ${shot.alt}`}
+              aria-label={fill(a11y.openPhoto, { n: String(i + 1), alt: shot.alt })}
             >
               <Image
                 {...photoProps(shot)}

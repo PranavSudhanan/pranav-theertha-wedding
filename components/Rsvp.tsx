@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useContent } from "@/lib/content-client";
+import { fill } from "@/lib/content-types";
 import SectionHead from "./SectionHead";
 import { Check } from "./Ornaments";
 
@@ -12,7 +13,11 @@ type Errors = Partial<
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export default function Rsvp() {
-  const { contact, couple, party, site, wedding } = useContent();
+  const {
+    contact, couple, party, site, wedding, venue, headings, rsvpForm, celebration, a11y,
+  } = useContent();
+  const guestOptions = rsvpForm.guestOptions.split(",").map((o) => o.trim()).filter(Boolean);
+  const celebrationMuhurtham = celebration.muhurtham;
   const [attending, setAttending] = useState<"yes" | "no" | "">("");
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
@@ -32,12 +37,12 @@ export default function Rsvp() {
     data.days = fd.getAll("days").join(", ");
 
     const next: Errors = {};
-    if (!data.name?.trim()) next.name = "Please tell us your name.";
+    if (!data.name?.trim()) next.name = rsvpForm.errName;
     if ((data.phone ?? "").replace(/\D/g, "").length < 7)
-      next.phone = "A number we can reach you on.";
+      next.phone = rsvpForm.errPhone;
     if (data.email?.trim() && !EMAIL.test(data.email.trim()))
-      next.email = "That address does not look quite right.";
-    if (!data.attending) next.attending = "Let us know if you can make it.";
+      next.email = rsvpForm.errEmail;
+    if (!data.attending) next.attending = rsvpForm.errAttending;
 
     setErrors(next);
     if (Object.keys(next).length) return;
@@ -82,9 +87,7 @@ Details & RSVP: ${site.url}`
       <div className="shell split">
         <div className="split__aside">
           <SectionHead
-            eyebrow="RSVP"
-            title="Will you be there?"
-            lede="Kindly respond by 15 October 2026 — it helps us plan the seating, and the sadhya."
+            {...headings.rsvp}
             align="left"
           />
         </div>
@@ -92,8 +95,8 @@ Details & RSVP: ${site.url}`
         <div className="split__main">
 
         <div aria-live="polite" className="sr-only">
-          {sent ? `Thank you ${sent}, your response is with us.` : ""}
-          {failed ? "Your response could not be sent. Please try again." : ""}
+          {sent ? fill(a11y.rsvpSent, { name: sent }) : ""}
+          {failed ? a11y.rsvpFailed : ""}
         </div>
 
         {sent ? (
@@ -102,26 +105,16 @@ Details & RSVP: ${site.url}`
               <Check />
             </span>
             <h3 className="s-title" style={{ fontSize: "clamp(1.8rem,4vw,2.6rem)" }}>
-              Thank you, {sent}
+              {fill(rsvpForm.thanksTitle, { name: sent })}
             </h3>
             <p className="prose" style={{ textAlign: "center" }}>
-              Your response is with us. We cannot wait to see you on{" "}
-              {wedding.dateLong}.
-              {sentTo && (
-                <>
-                  {" "}
-                  A copy of the invitation is on its way to{" "}
-                  <strong style={{ fontWeight: 400, color: "var(--forest)" }}>
-                    {sentTo}
-                  </strong>
-                  .
-                </>
-              )}
+              {fill(rsvpForm.thanksBody, { date: wedding.dateLong })}
+              {sentTo && ` ${fill(rsvpForm.thanksCopy, { email: sentTo })}`}
             </p>
 
             <div className="thanks__actions">
               <a className="btn btn-solid" href={INVITATION} download>
-                Download the invitation
+                {rsvpForm.download}
               </a>
               <a
                 className="btn btn-ghost"
@@ -129,7 +122,7 @@ Details & RSVP: ${site.url}`
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Send it to yourself on WhatsApp
+                {rsvpForm.shareSelf}
               </a>
             </div>
 
@@ -139,7 +132,7 @@ Details & RSVP: ${site.url}`
                 className="foot__link"
                 onClick={() => setSent(null)}
               >
-                Send another response
+                {rsvpForm.another}
               </button>
               {waHref && (
                 <a
@@ -148,7 +141,7 @@ Details & RSVP: ${site.url}`
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Say hello on WhatsApp
+                  {rsvpForm.sayHello}
                 </a>
               )}
             </div>
@@ -156,13 +149,13 @@ Details & RSVP: ${site.url}`
         ) : (
           <form className="form" onSubmit={onSubmit} noValidate>
             <div className={`field ${errors.name ? "err" : ""}`}>
-              <label htmlFor="name">Your name</label>
+              <label htmlFor="name">{rsvpForm.nameLabel}</label>
               <input suppressHydrationWarning
                 id="name"
                 name="name"
                 type="text"
                 autoComplete="name"
-                placeholder="As you would like it on the place card"
+                placeholder={rsvpForm.namePlaceholder}
                 onInput={() => clearErr("name")}
               />
               {errors.name && <small>{errors.name}</small>}
@@ -170,14 +163,14 @@ Details & RSVP: ${site.url}`
 
             <div className="form__row">
               <div className={`field ${errors.phone ? "err" : ""}`}>
-                <label htmlFor="phone">Phone</label>
+                <label htmlFor="phone">{rsvpForm.phoneLabel}</label>
                 <input suppressHydrationWarning
                   id="phone"
                   name="phone"
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
-                  placeholder="WhatsApp, ideally"
+                  placeholder={rsvpForm.phonePlaceholder}
                   onInput={() => clearErr("phone")}
                 />
                 {errors.phone && <small>{errors.phone}</small>}
@@ -190,7 +183,7 @@ Details & RSVP: ${site.url}`
                   name="email"
                   type="email"
                   autoComplete="email"
-                  placeholder="So we can write back"
+                  placeholder={rsvpForm.emailPlaceholder}
                   onInput={() => clearErr("email")}
                 />
                 {errors.email && <small>{errors.email}</small>}
@@ -210,50 +203,50 @@ Details & RSVP: ${site.url}`
             </div>
 
             <div className={`field ${errors.attending ? "err" : ""}`}>
-              <label>Can you join us?</label>
+              <label>{rsvpForm.attendingLabel}</label>
               <div className="choice">
                 <input suppressHydrationWarning
                   type="radio"
                   id="yes"
                   name="attending"
-                  value="Joyfully accepts"
+                  value={rsvpForm.accepts}
                   onChange={() => {
                     setAttending("yes");
                     clearErr("attending");
                   }}
                 />
-                <label htmlFor="yes">Joyfully accepts</label>
+                <label htmlFor="yes">{rsvpForm.accepts}</label>
                 <input suppressHydrationWarning
                   type="radio"
                   id="no"
                   name="attending"
-                  value="Regretfully declines"
+                  value={rsvpForm.declines}
                   onChange={() => {
                     setAttending("no");
                     clearErr("attending");
                   }}
                 />
-                <label htmlFor="no">Regretfully declines</label>
+                <label htmlFor="no">{rsvpForm.declines}</label>
               </div>
               {errors.attending && <small>{errors.attending}</small>}
             </div>
 
             {attending === "yes" && (
               <div className="field">
-                <label>Which will you join?</label>
+                <label>{rsvpForm.daysLabel}</label>
                 <div className="days">
                   {[
                     {
                       id: "day-party",
                       value: `${party.label} — ${party.dateShort}`,
                       title: party.label,
-                      sub: `Sat 14 Nov, ${party.time} · ${party.venue.name}`,
+                      sub: `${party.dateShort}, ${party.time} · ${party.venue.name}`,
                     },
                     {
                       id: "day-wedding",
-                      value: `Muhurtham — ${wedding.dateShort}`,
-                      title: "The Muhurtham",
-                      sub: `Sun 15 Nov, ${wedding.muhurtham} · Reef Club Resort`,
+                      value: `${celebrationMuhurtham} — ${wedding.dateShort}`,
+                      title: celebrationMuhurtham,
+                      sub: `${wedding.dateShort}, ${wedding.muhurtham} · ${venue.name}`,
                     },
                   ].map((d) => (
                     <div key={d.id}>
@@ -277,14 +270,14 @@ Details & RSVP: ${site.url}`
             {attending === "yes" && (
               <div className="form__row">
                 <div className="field">
-                  <label htmlFor="guests">How many of you?</label>
+                  <label htmlFor="guests">{rsvpForm.guestsLabel}</label>
                   <select
                     suppressHydrationWarning
                     id="guests"
                     name="guests"
                     defaultValue="1"
                   >
-                    {["1", "2", "3", "4", "5", "6", "More than 6"].map((n) => (
+                    {guestOptions.map((n) => (
                       <option key={n} value={n}>
                         {n}
                       </option>
@@ -292,44 +285,41 @@ Details & RSVP: ${site.url}`
                   </select>
                 </div>
                 <div className="field">
-                  <label htmlFor="side">Whose guest are you?</label>
+                  <label htmlFor="side">{rsvpForm.sideLabel}</label>
                   <select
                     suppressHydrationWarning
                     id="side"
                     name="side"
                     defaultValue=""
                   >
-                    <option value="">Prefer not to say</option>
+                    <option value="">{rsvpForm.sideNone}</option>
                     <option value={`${couple.groom.first}'s side`}>
                       {couple.groom.first}&apos;s side
                     </option>
                     <option value={`${couple.bride.first}'s side`}>
                       {couple.bride.first}&apos;s side
                     </option>
-                    <option value="Both">A bit of both</option>
+                    <option value="Both">{rsvpForm.sideBoth}</option>
                   </select>
                 </div>
               </div>
             )}
 
             <div className="field">
-              <label htmlFor="message">A note for us (optional)</label>
+              <label htmlFor="message">{rsvpForm.messageLabel}</label>
               <textarea suppressHydrationWarning
                 id="message"
                 name="message"
-                placeholder="A blessing, a song request, a dietary note…"
+                placeholder={rsvpForm.messagePlaceholder}
               />
             </div>
 
             {failed && (
               <div className="form__error" role="alert">
-                <strong>That did not go through</strong>
+                <strong>{rsvpForm.errorTitle}</strong>
                 <p>
-                  Something went wrong on our side — nothing was lost, please
-                  press send once more.{" "}
-                  {waHref
-                    ? "If it keeps refusing, message us on WhatsApp and we will add you by hand."
-                    : "If it keeps refusing, do give us a call and we will add you by hand."}
+                  {rsvpForm.errorBody}{" "}
+                  {waHref ? rsvpForm.errorWhatsapp : rsvpForm.errorCall}
                 </p>
                 {waHref && (
                   <a
@@ -352,11 +342,9 @@ Details & RSVP: ${site.url}`
                 type="submit"
                 disabled={sending}
               >
-                {sending ? "Sending…" : failed ? "Try again" : "Send our response"}
+                {sending ? rsvpForm.sending : failed ? rsvpForm.retry : rsvpForm.submit}
               </button>
-              <span className="form__hint">
-                One response per household is plenty.
-              </span>
+              <span className="form__hint">{rsvpForm.hint}</span>
             </div>
           </form>
         )}

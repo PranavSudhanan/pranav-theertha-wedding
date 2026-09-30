@@ -2,15 +2,15 @@ import Image from "next/image";
 import { getContent } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import { Kalasha, Nilavilakku, Pin } from "./Ornaments";
-import { img } from "@/lib/images";
+import { photoProps } from "@/lib/images";
 
 export default async function Venue() {
-  const { party, travel, venue, wedding } = await getContent();
+  const { party, travel, venue, wedding, headings, venueLabels, photos } = await getContent();
 
   const places = [
     {
       motif: <Kalasha />,
-      tag: "Saturday",
+      tag: venueLabels.saturday,
       date: party.dateLong,
       time: party.time,
       what: party.label,
@@ -18,20 +18,20 @@ export default async function Venue() {
       where: `${party.venue.locality}, ${party.venue.city}`,
       region: party.venue.region,
       maps: party.venue.mapsUrl,
-      image: "/images/couple-01.jpg",
+      photo: photos.venueParty,
       accent: false,
     },
     {
       motif: <Nilavilakku />,
-      tag: "Sunday",
+      tag: venueLabels.sunday,
       date: wedding.dateLong,
       time: wedding.muhurtham,
-      what: "The Muhurtham",
+      what: venueLabels.muhurtham,
       name: venue.name,
       where: `${venue.locality}, ${venue.city}`,
       region: venue.region,
       maps: venue.mapsUrl,
-      image: "/images/couple-05.jpg",
+      photo: photos.venueMuhurtham,
       accent: true,
     },
   ];
@@ -40,9 +40,7 @@ export default async function Venue() {
     <section className="band" id="venue">
       <div className="shell">
         <SectionHead
-          eyebrow="The Venues"
-          title="Where to find us"
-          lede="Two halls on two sides of Kozhikode — please check the map for the one you are coming to."
+          {...headings.venue}
         />
 
         <div className="places">
@@ -55,7 +53,7 @@ export default async function Venue() {
             >
               <figure className="place__figure">
                 <Image
-                  src={img(p.image)}
+                  {...photoProps(p.photo)}
                   alt={`${p.what} — ${p.name}`}
                   fill
                   placeholder="blur"

@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useContent } from "@/lib/content-client";
-import { weddingDate } from "@/lib/content-types";
+import { fill, weddingDate } from "@/lib/content-types";
 import { Rule } from "./Ornaments";
 import CalendarButton from "./CalendarButton";
-import { img } from "@/lib/images";
+import { photoProps } from "@/lib/images";
 
-const UNITS = ["Days", "Hours", "Minutes", "Seconds"] as const;
+
 
 function split(ms: number) {
   const s = Math.max(0, Math.floor(ms / 1000));
@@ -22,7 +22,13 @@ function split(ms: number) {
 
 export default function Countdown() {
   const content = useContent();
-  const { couple, party, wedding } = content;
+  const { couple, party, wedding, countdown, photos } = content;
+  const units = [
+    countdown.unitDays,
+    countdown.unitHours,
+    countdown.unitMinutes,
+    countdown.unitSeconds,
+  ];
   const [parts, setParts] = useState<number[] | null>(null);
   const [past, setPast] = useState(false);
 
@@ -41,7 +47,7 @@ export default function Countdown() {
     <section className="count" aria-labelledby="count-title">
       <div className="count__bg" aria-hidden="true">
         <Image
-          src={img("/images/couple-04.jpg")}
+          {...photoProps(photos.countdown)}
           alt=""
           fill
           priority={false}
@@ -55,7 +61,7 @@ export default function Countdown() {
       <div className="shell center">
         <div data-reveal="fade">
           <span className="eyebrow">
-            {past ? "Thank you for celebrating with us" : "Counting down to the muhurtham"}
+            {past ? countdown.pastEyebrow : countdown.eyebrow}
           </span>
         </div>
 
@@ -65,13 +71,12 @@ export default function Countdown() {
           data-reveal
           style={{ ["--d" as string]: "80ms", marginTop: "1rem" }}
         >
-          {past ? (
-            <>
-              {couple.groom.first} &amp; {couple.bride.first} are married
-            </>
-          ) : (
-            <>{wedding.dateLong}</>
-          )}
+          {past
+            ? fill(countdown.pastTitle, {
+                groom: couple.groom.first,
+                bride: couple.bride.first,
+              })
+            : wedding.dateLong}
         </h2>
 
         <div style={{ marginTop: "1.4rem" }} data-reveal="fade">
@@ -85,7 +90,7 @@ export default function Countdown() {
           role="timer"
           aria-live="off"
         >
-          {UNITS.map((unit, i) => (
+          {units.map((unit, i) => (
             <div className="count__cell" key={unit}>
               <div className="count__num">
                 {parts ? (
@@ -107,8 +112,8 @@ export default function Countdown() {
           style={{ ["--d" as string]: "200ms" }}
         >
           {past
-            ? "With all our love, and our thanks."
-            : `The thaali is tied between ${wedding.muhurtham}.`}
+            ? countdown.pastNote
+            : fill(countdown.note, { muhurtham: wedding.muhurtham })}
         </p>
 
         {!past && (
@@ -117,8 +122,12 @@ export default function Countdown() {
             data-reveal="fade"
             style={{ ["--d" as string]: "240ms" }}
           >
-            And the evening before — {party.dateLong}, {party.time}, at{" "}
-            {party.venue.name}, {party.venue.locality}.
+            {fill(countdown.before, {
+              partyDate: party.dateLong,
+              partyTime: party.time,
+              partyVenue: party.venue.name,
+              partyLocality: party.venue.locality,
+            })}
           </p>
         )}
 
@@ -126,7 +135,7 @@ export default function Countdown() {
           data-reveal
           style={{ marginTop: "2rem", ["--d" as string]: "260ms" }}
         >
-          <CalendarButton className="btn btn-light" label="Save the date" />
+          <CalendarButton className="btn btn-light" label={countdown.saveDate} />
         </div>
       </div>
     </section>

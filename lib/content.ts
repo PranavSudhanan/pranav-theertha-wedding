@@ -50,7 +50,12 @@ const cached = unstable_cache(load, ["wedding-content"], { tags: [TAG] });
 
 export async function getContent(): Promise<Content> {
   try {
-    return await cached();
+    // Merged onto the defaults a second time on purpose. load() already does
+    // it, but what comes back here may be a *cached* result from before a
+    // deploy that added new fields — and that one never passed through the
+    // new defaults. Without this, shipping a new field white-screens the site
+    // until the cache happens to turn over.
+    return merge(DEFAULTS, await cached());
   } catch {
     return DEFAULTS;
   }

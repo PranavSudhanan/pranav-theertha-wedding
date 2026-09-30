@@ -5,15 +5,13 @@ import { Paisley, Pin } from "./Ornaments";
 import { photoProps } from "@/lib/images";
 
 export default async function Story() {
-  const { story, storyStats, storyLede } = await getContent();
+  const { story, storyStats, storyLede, headings } = await getContent();
 
   return (
     <section className="band" id="story">
       <div className="shell">
         <SectionHead
-          eyebrow="Our Story"
-          title="How we arrived here"
-          lede="Six chapters, four years, and three cities along one coast."
+          {...headings.story}
         />
 
         <p

@@ -3,7 +3,7 @@ import ShareButton from "./ShareButton";
 import CalendarButton from "./CalendarButton";
 
 export default async function Footer() {
-  const { couple, venue, wedding } = await getContent();
+  const { couple, venue, wedding, footerLabels } = await getContent();
 
   return (
     <footer className="foot">
@@ -22,7 +22,7 @@ export default async function Footer() {
 
         <div className="foot__links" data-reveal="fade">
           <a className="foot__link" href="#rsvp">
-            RSVP
+            {footerLabels.rsvp}
           </a>
           <a
             className="foot__link"
@@ -30,18 +30,18 @@ export default async function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Directions
+            {footerLabels.directions}
           </a>
-          <CalendarButton className="foot__link" label="Add to calendar" />
+          <CalendarButton className="foot__link" label={footerLabels.calendar} />
           <ShareButton />
           <a className="foot__link" href="#top">
-            Back to top
+            {footerLabels.backToTop}
           </a>
         </div>
 
         <div className="foot__base">
           <span>{couple.hashtag}</span>
-          <span>Made with love, in Kozhikode.</span>
+          <span>{footerLabels.madeWith}</span>
         </div>
       </div>
     </footer>

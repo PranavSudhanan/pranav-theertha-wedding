@@ -2,13 +2,13 @@ import Image from "next/image";
 import { getContent } from "@/lib/content";
 import { Rule } from "./Ornaments";
 import CalendarButton from "./CalendarButton";
-import { img } from "@/lib/images";
+import { photoProps } from "@/lib/images";
 
 const startOf = (t: string) =>
   t.split(/[–—-]/)[0].replace(/\s*onwards\s*$/i, "").trim();
 
 export default async function Hero() {
-  const { couple, party, venue, wedding } = await getContent();
+  const { couple, party, venue, wedding, hero, photos } = await getContent();
   const shortPartyTime = startOf(party.time);
   const shortMuhurtham = startOf(wedding.muhurtham);
 
@@ -17,7 +17,7 @@ export default async function Hero() {
       <div className="shell hero__grid">
         <div className="hero__copy">
           <span className="mask" style={{ ["--d" as string]: "80ms" }}>
-            <span className="eyebrow">Together with our families</span>
+            <span className="eyebrow">{hero.eyebrow}</span>
           </span>
 
           <h1 className="hero__names">
@@ -54,16 +54,16 @@ export default async function Hero() {
             style={{ ["--d" as string]: "840ms" }}
           >
             <li>
-              <span className="hero__plan-day">14 Nov</span>
+              <span className="hero__plan-day">{hero.dayOne}</span>
               <span className="hero__plan-what">
                 {party.label} &nbsp;·&nbsp; {shortPartyTime}
               </span>
               <span className="hero__plan-where">{party.venue.name}</span>
             </li>
             <li>
-              <span className="hero__plan-day">15 Nov</span>
+              <span className="hero__plan-day">{hero.dayTwo}</span>
               <span className="hero__plan-what">
-                Muhurtham &nbsp;·&nbsp; {shortMuhurtham}
+                {hero.muhurtham} &nbsp;·&nbsp; {shortMuhurtham}
               </span>
               <span className="hero__plan-where">{venue.name}</span>
             </li>
@@ -89,9 +89,8 @@ export default async function Hero() {
           <span className="arch-frame" aria-hidden="true" />
           <div className="arch">
             <Image
-              src={img("/images/couple-07.jpg")}
-              alt={`${couple.groom.first} and ${couple.bride.first}`}
-              placeholder="blur"
+              {...photoProps(photos.hero)}
+              alt={photos.hero.alt || `${couple.groom.first} and ${couple.bride.first}`}
               priority
               sizes="(min-width: 1200px) 50vw, (min-width: 900px) 34vw, 100vw"
             />
@@ -101,7 +100,7 @@ export default async function Hero() {
       </div>
 
       <div className="scroll-cue" aria-hidden="true">
-        <span>Scroll</span>
+        <span>{hero.scroll}</span>
         <i />
       </div>
     </section>

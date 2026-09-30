@@ -5,7 +5,7 @@ import { useContent } from "@/lib/content-client";
 import SectionHead from "./SectionHead";
 
 export default function Faq() {
-  const { contact, faqs } = useContent();
+  const { contact, faqs, headings } = useContent();
   const [open, setOpen] = useState<number | null>(0);
 
   const hasContact = Boolean(contact.whatsapp || contact.altPhone || contact.email);
@@ -15,9 +15,7 @@ export default function Faq() {
       <div className="shell split">
         <div className="split__aside">
           <SectionHead
-            eyebrow="Good to know"
-            title="Questions, answered"
-            lede="And if we have missed anything at all, just ask."
+            {...headings.faq}
             align="left"
           />
         </div>

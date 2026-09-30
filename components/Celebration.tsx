@@ -41,22 +41,20 @@ function DayHead({
 }
 
 export default async function Celebration() {
-  const { party, schedule, venue, wedding } = await getContent();
+  const { party, schedule, venue, wedding, headings, celebration } = await getContent();
 
   return (
     <section className="band bg-ivory" id="celebration">
       <div className="shell">
         <SectionHead
-          eyebrow="The Celebration"
-          title="Two days, one family"
-          lede="It begins on the Saturday evening with a party, and ends on Sunday morning with a thaali, a lamp and a leaf full of sadhya."
+          {...headings.celebration}
         />
 
         {/* ── Day one ───────────────────────────────── */}
         <article className="day">
           <DayHead
             motif={<Kalasha />}
-            day="Day One"
+            day={celebration.dayOne}
             date={party.dateLong}
             title={party.label}
             venueName={party.venue.name}
@@ -65,13 +63,13 @@ export default async function Celebration() {
 
           <div className="day__feature" data-reveal style={{ ["--d" as string]: "80ms" }}>
             <span className="sched__time">
-              {party.time || "Time to be announced"}
+              {party.time || celebration.timeTba}
             </span>
             <p className="day__blurb">{party.blurb}</p>
             <div className="day__actions">
               <CalendarButton
                 className="btn btn-ghost"
-                label="Add the party"
+                label={celebration.addParty}
                 which="party"
               />
               <a
@@ -81,7 +79,7 @@ export default async function Celebration() {
                 rel="noopener noreferrer"
               >
                 <Pin />
-                Directions
+                {celebration.directions}
               </a>
             </div>
           </div>
@@ -91,9 +89,9 @@ export default async function Celebration() {
         <article className="day">
           <DayHead
             motif={<Nilavilakku />}
-            day="Day Two"
+            day={celebration.dayTwo}
             date={wedding.dateLong}
-            title="The Muhurtham"
+            title={celebration.muhurtham}
             venueName={venue.name}
             venuePlace={`${venue.locality}, ${venue.city}`}
           />
@@ -116,7 +114,7 @@ export default async function Celebration() {
           <div className="day__actions day__actions--centre" data-reveal>
             <CalendarButton
               className="btn"
-              label="Add both days to your calendar"
+              label={celebration.addBoth}
               which="both"
             />
             <a
@@ -126,7 +124,7 @@ export default async function Celebration() {
               rel="noopener noreferrer"
             >
               <Pin />
-              Directions to the muhurtham
+              {celebration.directionsMuhurtham}
             </a>
           </div>
         </article>

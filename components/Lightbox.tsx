@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Arrow, Cross } from "./Ornaments";
 import { photoProps } from "@/lib/images";
+import { useContent } from "@/lib/content-client";
 
 import type { Photo } from "@/lib/content-types";
 
@@ -22,6 +23,7 @@ export default function Lightbox({
   setIndex: (i: number) => void;
   onClose: () => void;
 }) {
+  const { a11y } = useContent();
   const open = index !== null;
   const many = items.length > 1;
 
@@ -90,7 +92,7 @@ export default function Lightbox({
       className={`lb ${open ? "open" : ""}`}
       role="dialog"
       aria-modal="true"
-      aria-label="Photo viewer"
+      aria-label={a11y.photoViewer}
       onClick={onClose}
       onTouchStart={(e) => {
         touchX.current = e.touches[0].clientX;
@@ -107,7 +109,7 @@ export default function Lightbox({
         ref={closeBtn}
         className="lb__close"
         onClick={onClose}
-        aria-label="Close"
+        aria-label={a11y.closePhoto}
       >
         <Cross />
       </button>
@@ -115,7 +117,7 @@ export default function Lightbox({
       {many && (
         <button suppressHydrationWarning
           className="lb__btn prev"
-          aria-label="Previous photo"
+          aria-label={a11y.prevPhoto}
           onClick={(e) => {
             e.stopPropagation();
             go(-1);
@@ -141,7 +143,7 @@ export default function Lightbox({
       {many && (
         <button suppressHydrationWarning
           className="lb__btn next"
-          aria-label="Next photo"
+          aria-label={a11y.nextPhoto}
           onClick={(e) => {
             e.stopPropagation();
             go(1);

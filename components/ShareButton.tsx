@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useContent } from "@/lib/content-client";
 
 export default function ShareButton() {
-  const { site } = useContent();
-  const [label, setLabel] = useState("Share");
+  const { site, shareLabels } = useContent();
+  const [label, setLabel] = useState(shareLabels.share);
 
   const share = async () => {
     const url = typeof window !== "undefined" ? window.location.href : site.url;
@@ -15,8 +15,8 @@ export default function ShareButton() {
         return;
       }
       await navigator.clipboard.writeText(url);
-      setLabel("Link copied");
-      window.setTimeout(() => setLabel("Share"), 2200);
+      setLabel(shareLabels.copied);
+      window.setTimeout(() => setLabel(shareLabels.share), 2200);
     } catch {
       /* the guest cancelled — nothing to do */
     }

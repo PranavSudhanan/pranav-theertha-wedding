@@ -5,7 +5,7 @@ import { useContent } from "@/lib/content-client";
 
 export default function Nav() {
   const content = useContent();
-  const { couple, wedding } = content;
+  const { couple, wedding, navLabels } = content;
 
   // A link to a section that has been switched off would scroll nowhere.
   const nav = useMemo(
@@ -82,11 +82,11 @@ export default function Nav() {
     <>
       <header className={`nav ${solid ? "solid" : ""}`}>
         <div className="shell nav__bar">
-          <a href="#top" className="nav__mono" aria-label="Back to top">
+          <a href="#top" className="nav__mono" aria-label={navLabels.backToTop}>
             {couple.groom.initial} &amp; {couple.bride.initial}
           </a>
 
-          <nav className="nav__links" aria-label="Sections">
+          <nav className="nav__links" aria-label={navLabels.sections}>
             {nav.map((item) => (
               <a
                 key={item.href}
@@ -99,13 +99,13 @@ export default function Nav() {
           </nav>
 
           <a href="#rsvp" className="btn btn-solid nav__cta">
-            RSVP
+            {navLabels.rsvp}
           </a>
 
           <button suppressHydrationWarning
             className={`burger ${open ? "open" : ""}`}
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? navLabels.closeMenu : navLabels.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
